@@ -1,8 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RecruiterLite.DataAccess;
-using RecruiterLite.Models;
+using RecruiterLite.DataAccess.Interfaces;
 using RecruiterLite.Models.Request;
 using RecruiterLite.Models.Response;
 
@@ -12,12 +10,12 @@ namespace RecruiterLite.Controllers;
 [ApiController]
 public class CandidateController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ICandidateRepository _candidateRepository;
     private readonly IMapper _mapper;
 
-    public CandidateController(ApplicationDbContext context, IMapper mapper)
+    public CandidateController(ICandidateRepository candidateRepository, IMapper mapper)
     {
-        _context = context;
+        _candidateRepository = candidateRepository;
         _mapper = mapper;
     }
 
@@ -25,11 +23,11 @@ public class CandidateController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates()
     {
-        if (_context.Candidates == null)
+        var candidateList = await _candidateRepository.GetCandidatesAsync();
+        if (candidateList == null)
         {
-            return NotFound();
+            return NotFound("No candidates currently exist in the database.");
         }
-        var candidateList = await _context.Candidates.ToListAsync();
         return _mapper.Map<List<CandidateResponse>>(candidateList); ;
     }
 
@@ -37,14 +35,10 @@ public class CandidateController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CandidateResponse>> GetCandidate(int id)
     {
-        if (_context.Candidates == null)
-        {
-            return NotFound();
-        }
-        var candidate = await _context.Candidates.FindAsync(id);
+        var candidate = await _candidateRepository.GetCandidateByIdAsync(id);
         if (candidate == null)
         {
-            return NotFound();
+            return NotFound($"Candidate with id of {id} not found.");
         }
         return _mapper.Map<CandidateResponse>(candidate);
     }
@@ -52,36 +46,18 @@ public class CandidateController : ControllerBase
     // POST: api/Candidate/id (id is optional)
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("{id?}")]
-    public async Task<ActionResult<CandidateResponse>> PostCandidate(CandidateRequest candidateRequest, int? id)
+    public async Task<ActionResult<CandidateResponse>> PostCandidate(int? id, CandidateRequest candidateRequest)
     {
-        if (_context.Candidates == null)
-        {
-            return Problem("Entity set 'ApplicationDbContext.Candidates'  is null.");
-        }
-
         if (id != null && id > 0)
         {
-            var candidateFomDb = await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
-            if (candidateFomDb == null)
-            { 
-                return NotFound($"A Candidate with id of {id} does not exist in database.");
+            if (await _candidateRepository.CandidateExists(id.GetValueOrDefault()))
+            {
+                var candidateFomDb = await _candidateRepository.UpdateCandidate(id.GetValueOrDefault(), candidateRequest);
+                return Ok(candidateFomDb);
             }
-            candidateFomDb.FirstName = candidateRequest.FirstName;
-            candidateFomDb.LastName = candidateRequest.LastName;
-            candidateFomDb.Email = candidateRequest.Email;
-            candidateFomDb.PhoneNumber = candidateRequest.PhoneNumber;
-            candidateFomDb.StreetAddress = candidateRequest.StreetAddress;
-            candidateFomDb.PostCode = candidateRequest.PostCode;
-            candidateFomDb.County = candidateRequest.County;
-            candidateFomDb.Country = candidateRequest.Country;
-            candidateFomDb.CompanyId = candidateRequest.CompanyId;
-            await _context.SaveChangesAsync();
-            return Ok(candidateFomDb);
+            return NotFound($"Candidate with id of {id} not found.");
         }
-        
-        var newCandidate = _mapper.Map<Candidate>(candidateRequest);
-        _context.Candidates.Add(newCandidate);
-        await _context.SaveChangesAsync();
+        var newCandidate = await _candidateRepository.AddCandidate(candidateRequest);  
         return CreatedAtAction("GetCandidate", new { id = newCandidate.Id }, newCandidate);
     }
 
@@ -89,24 +65,11 @@ public class CandidateController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCandidate(int id)
     {
-        if (_context.Candidates == null)
+        if (await _candidateRepository.CandidateExists(id))
         {
-            return NotFound();
+            var candidateDeleted = await _candidateRepository.DeleteCandidate(id);  
+            return Ok(candidateDeleted);
         }
-
-        var candidate = await _context.Candidates.FindAsync(id);
-        if (candidate == null)
-        {
-            return NotFound();
-        }
-
-        _context.Candidates.Remove(candidate);
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
-
-    private bool CandidateExists(int id)
-    {
-        return (_context.Candidates?.Any(e => e.Id == id)).GetValueOrDefault();
+        return NotFound($"Candidate with id of {id} not found.");
     }
 }

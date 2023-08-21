@@ -1,8 +1,7 @@
 using System.Reflection;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RecruiterLite.DataAccess;
-using RecruiterLite.Mappings;
+using RecruiterLite.DataAccess.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
 // builder.Services.AddAutoMapper(typeof(Program));
 
 // Find and register all mapper profiles
