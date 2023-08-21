@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecruiterLite.Models;
 
-public class Candidate
-{
-    public int Id { get; set; }
+public class Candidate: BaseEntity
+{ 
     public string FirstName { get; set; }
     public string LastName { get; set; }
     [EmailAddress]

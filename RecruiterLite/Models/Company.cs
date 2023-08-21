@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecruiterLite.Models;
 
-public class Company
+public class Company : BaseEntity
 {
-    public int Id { get; set; }
     public string CompanyName { get; set; }
     public string PhoneNumber { get; set; }
     public string StreetAddress { get; set; }
