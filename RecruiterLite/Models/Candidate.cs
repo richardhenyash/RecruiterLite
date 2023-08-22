@@ -17,4 +17,6 @@ public class Candidate: BaseEntity
         
     [ForeignKey("CompanyId")]
     public int? CompanyId { get; set; }
+    
+    public virtual Company? Company { get; set; }
 }

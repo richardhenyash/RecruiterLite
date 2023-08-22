@@ -16,17 +16,6 @@ public class CandidateRepository : ICandidateRepository
         _context = context;
         _mapper = mapper;
     }
-
-    public async Task<Candidate> GetCandidateByIdAsync(int id)
-    {
-        return await _context.Candidates.FindAsync(id);
-    }
-
-    public async Task<IReadOnlyList<Candidate>> GetCandidatesAsync()
-    {
-        return await _context.Candidates.ToListAsync();
-    }
-
     public async Task<Candidate> AddCandidate(CandidateRequest candidateRequest)
     {
         var newCandidate = _mapper.Map<Candidate>(candidateRequest);
@@ -50,19 +39,7 @@ public class CandidateRepository : ICandidateRepository
         await _context.SaveChangesAsync();
         return candidateFomDb;
     }
-    
-    public async Task<bool> DeleteCandidate(int id)
-    {
-        var candidate = await _context.Candidates.FindAsync(id);
-        if (candidate == null)
-        {
-            return false;
-        }
-        _context.Candidates.Remove(candidate);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-    public async Task<bool> CandidateExists(int id)
+    public bool CandidateExists(int id)
     {
         return _context.Candidates.Any(e => e.Id == id);
     }

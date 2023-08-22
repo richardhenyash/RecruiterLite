@@ -10,6 +10,7 @@ public class MappingProfile : Profile {
         // Add as many of these lines as you need to map your objects
         CreateMap<CandidateRequest, Candidate>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
-        CreateMap<Candidate, CandidateResponse>();
+        CreateMap<Candidate, CandidateResponse>()
+            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(c => c.Company.CompanyName));
     }
 }
