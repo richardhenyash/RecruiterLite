@@ -61,7 +61,6 @@ public class CandidateController : ControllerBase
     }
 
     // POST: api/Candidate/id (id is optional)
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<CandidateResponse>> PostCandidate(CandidateRequest candidateRequest)
     {
@@ -71,8 +70,7 @@ public class CandidateController : ControllerBase
             var updatedCandidate = await _unitOfWork.Repository<Candidate>().GetByIdAsync(candidateRequest.Id.GetValueOrDefault());
             if (updatedCandidate == null)
                 return NotFound($"Candidate with id of {candidateRequest.Id} not found.");
-            updatedCandidate.FirstName = candidateRequest.FirstName;
-            updatedCandidate.LastName = candidateRequest.LastName;
+            updatedCandidate = _mapper.Map(candidateRequest, updatedCandidate);
             _unitOfWork.Repository<Candidate>().Update(updatedCandidate);
             result = await _unitOfWork.Complete();
             return Ok(updatedCandidate);
@@ -92,7 +90,11 @@ public class CandidateController : ControllerBase
         {
             _unitOfWork.Repository<Candidate>().Delete(candidateFromDb);
             var result = await _unitOfWork.Complete();
-            return Ok();
+            if (result > 0)
+            {
+                return Ok($"Candidate with id of {id} successfully deleted.");   
+            }
+            return Problem($"Candidate with id of {id} has not been successfully deleted.");
         }
         return NotFound($"Candidate with id of {id} not found.");
     }

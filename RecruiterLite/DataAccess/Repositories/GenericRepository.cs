@@ -47,7 +47,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         _dbSet.RemoveRange(entities);
     }
-
+    
+    public bool EntityExists(int id)
+    {
+        return _dbSet.Any(e => e.Id == id);
+    }
     public async Task<T> GetEntityWithSpecification(ISpecification<T> specification)
     {
         return await ApplySpecification(specification).FirstOrDefaultAsync();

@@ -16,4 +16,5 @@ public interface IGenericRepository<T> where T : BaseEntity
     public void Update(T entity);
     public void Delete(T entity);
     public void DeleteRange(IEnumerable<T> entities);
+    public bool EntityExists(int id);
 }
