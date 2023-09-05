@@ -1,3 +1,8 @@
-<ul *ngFor="let candidate of candidatesArray">
-  <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}
-</ul>
+<div *ngIf="(loadingCandidates$ | async)">
+  <app-spinner message="Loading candidates..."></app-spinner>
+</div>
+<div *ngIf="!(loadingCandidates$ | async)">
+  <ul *ngFor="let candidate of candidates">
+    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}
+  </ul>
+</div>
