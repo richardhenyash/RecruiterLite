@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
-import { Candidate } from "../Models/Candidate";
+import {Component, OnInit} from '@angular/core';
+import { Candidate } from "../models/Candidate";
+import {CandidatesApiService} from "./store/candidates-api.service";
 
 @Component({
   selector: 'app-candidates',
   templateUrl: './candidates.component.html',
 })
-export class CandidatesComponent {
+export class CandidatesComponent implements OnInit {
+  constructor(private readonly candidatesApiService: CandidatesApiService) {}
+  public candidatesArray: Candidate[] = [];
   public candidates: Candidate[] = [{
     id: 1,
     firstName: "Richard",
@@ -32,4 +35,8 @@ export class CandidatesComponent {
       companyId: 2,
       companyName: "ACME Ltd",
     }];
+
+  ngOnInit(): void {
+    this.candidatesApiService.loadCandidates().subscribe(res => this.candidatesArray = res);
+  }
 }

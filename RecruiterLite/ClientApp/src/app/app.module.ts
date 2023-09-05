@@ -2,15 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { CandidatesComponent } from "./candidates/candidates.component";
-
+import { AppRoutingModule } from "./app-routing.module";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from '@ngrx/effects';
+import { API_BASE_URL } from "./api/base-api-service";
+import {environment} from "../environments/environment";
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,20 +20,19 @@ import { CandidatesComponent } from "./candidates/candidates.component";
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    CandidatesComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    AppRoutingModule,
+    BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'candidates', component: CandidatesComponent },
-    ])
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
   ],
-  providers: [],
+  providers: [{
+    provide: API_BASE_URL,
+    useValue: environment.apiBaseUrl,
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,6 +6,8 @@ using RecruiterLite.DataAccess.Specifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var corsPolicy = "CorsPolicy";
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -19,6 +21,16 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(corsPolicy, builderCors => builderCors
+        .WithOrigins("https://localhost:44411")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
 
 var app = builder.Build();
 
@@ -39,6 +51,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors(corsPolicy);
 
 app.MapControllerRoute(
     name: "default",
