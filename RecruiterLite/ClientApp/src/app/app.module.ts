@@ -29,10 +29,9 @@ import {environment} from "../environments/environment";
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
   ],
-  providers: [{
-    provide: API_BASE_URL,
-    useValue: environment.apiBaseUrl,
-  },],
+  providers: [
+    {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import { Candidate } from "../models/Candidate";
 import {CandidatesApiService} from "./store/candidates-api.service";
+import {CandidatesFacade} from "./store/candidates.facade";
+import {Subject, takeUntil, tap} from "rxjs";
 
 @Component({
   selector: 'app-candidates',
   templateUrl: './candidates.component.html',
 })
 export class CandidatesComponent implements OnInit {
-  constructor(private readonly candidatesApiService: CandidatesApiService) {}
+  public unsubscribe$: Subject<void> = new Subject();
+  constructor(private readonly candidatesFacade: CandidatesFacade) {}
   public candidatesArray: Candidate[] = [];
   public candidates: Candidate[] = [{
     id: 1,
@@ -37,6 +40,16 @@ export class CandidatesComponent implements OnInit {
     }];
 
   ngOnInit(): void {
-    this.candidatesApiService.loadCandidates().subscribe(res => this.candidatesArray = res);
+    this.candidatesFacade.loadCandidates();
+    this.candidatesFacade.candidates$
+      .pipe(
+        tap((candidates: Candidate[] | null) => {
+          if (candidates) {
+            this.candidatesArray = candidates;
+          }
+        }),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe();
   }
 }
