@@ -91,8 +91,8 @@ public class CandidateController : ControllerBase
             _unitOfWork.Repository<Candidate>().Delete(candidateFromDb);
             var result = await _unitOfWork.Complete();
             if (result > 0)
-            {
-                return Ok($"Candidate with id of {id} successfully deleted.");   
+            { 
+                return Ok();   
             }
             return Problem($"Candidate with id of {id} has not been successfully deleted.");
         }

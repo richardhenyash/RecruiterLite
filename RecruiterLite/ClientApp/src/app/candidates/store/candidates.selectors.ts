@@ -16,5 +16,7 @@ export const selectCandidatesStatus = createSelector(
 export const selectLoadingCandidates = createSelector(
   selectCandidatesFeature,
   (state: CandidatesState) =>
-    state.candidateStatus === ApiState.LOADING
+    state.candidateStatus === ApiState.LOADING ||
+    state.saveCandidateStatus === ApiState.LOADING ||
+    state.deleteCandidateStatus === ApiState.LOADING
 );

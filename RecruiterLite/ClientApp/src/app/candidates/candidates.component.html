@@ -3,6 +3,9 @@
 </div>
 <div *ngIf="!(loadingCandidates$ | async)">
   <ul *ngFor="let candidate of candidates">
-    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}
+    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}  <button (click)="onDeleteCandidate(candidate.id)">Delete</button>
   </ul>
+</div>
+<div>
+  <button (click)="onUpdateCandidate()">Update Candidate</button>
 </div>

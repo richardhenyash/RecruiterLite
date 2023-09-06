@@ -13,6 +13,7 @@ import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from '@ngrx/effects';
 import { API_BASE_URL } from "./api/base-api-service";
 import {environment} from "../environments/environment";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,10 @@ import {environment} from "../environments/environment";
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx RecruiterLite',
+      logOnly: environment.production
+    }),
     EffectsModule.forRoot([]),
   ],
   providers: [
