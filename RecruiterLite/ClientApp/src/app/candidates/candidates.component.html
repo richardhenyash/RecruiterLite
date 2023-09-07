@@ -3,9 +3,32 @@
 </div>
 <div *ngIf="!(loadingCandidates$ | async)">
   <ul *ngFor="let candidate of candidates">
-    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}  <button (click)="onDeleteCandidate(candidate.id)">Delete</button>
+    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}} <button (click)="onEditCandidate(candidate.id)">Edit</button> <button (click)="onDeleteCandidate(candidate.id)">Delete</button>
   </ul>
 </div>
-<div>
-  <button (click)="onUpdateCandidate()">Update Candidate</button>
+<div class="row">
+  <form [formGroup]="candidateForm" (ngSubmit)="onUpdateCandidate()" class="col-6">
+    <label for="InputFirstName">First Name: </label>
+    <input id="InputFirstName" type="text" formControlName="firstName"><br>
+    <label for="InputLastName">Last Name: </label>
+    <input id="InputLastName" type="text" formControlName="lastName"><br>
+    <label for="InputEmail">Email: </label>
+    <input id="InputEmail" type="text" formControlName="email"><br>
+    <label for="InputPhoneNumber">Phone Number: </label>
+    <input id="InputPhoneNumber" type="text" formControlName="phoneNumber"><br>
+    <label for="InputStreetAddress">Street Address: </label>
+    <input id="InputStreetAddress" type="text" formControlName="streetAddress"><br>
+    <label for="InputPostCode">Post Code: </label>
+    <input id="InputPostCode" type="text" formControlName="postCode"><br>
+    <label for="InputCounty">County: </label>
+    <input id="InputCounty" type="text" formControlName="county"><br>
+    <label for="InputCountry">Country: </label>
+    <input id="InputCountry" type="text" formControlName="country"><br>
+    <label for="InputCompanyId">Company Id: </label>
+    <input id="InputCompanyId" type="number" formControlName="companyId"><br>
+    <p *ngIf="!candidateForm.valid">Complete the form to enable button.</p>
+    <button *ngIf="candidateId" type="submit" [disabled]="!candidateForm.valid">Update Candidate</button>
+    <button *ngIf="!candidateId" type="submit" [disabled]="!candidateForm.valid">Add Candidate</button>
+    <button type="button" (click)="onClearForm()">Clear Form</button>
+  </form>
 </div>
