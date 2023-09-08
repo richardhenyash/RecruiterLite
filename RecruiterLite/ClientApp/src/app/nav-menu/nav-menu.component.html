@@ -1,49 +1,95 @@
 <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">RecruiterLite</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
+  <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" [routerLink]="['/']" >Recruiter Lite</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item" [routerLinkActive]="['link-active']" >
+            <a class="nav-link text-light" [routerLink]="['/']">Home
+              <span class="visually-hidden">(current)</span>
+            </a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
+            <a class="nav-link text-light" [routerLink]="['/counter']"
               >Counter</a
             >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
+            <a class="nav-link text-light" [routerLink]="['/fetch-data']"
               >Fetch data</a
             >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/candidates']"
+            <a class="nav-link text-light" [routerLink]="['/candidates']"
             >Candidates</a
             >
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item text-light" href="#">Action</a>
+              <a class="dropdown-item text-light" href="#">Another action</a>
+              <a class="dropdown-item text-light" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li>
         </ul>
+        <form class="d-flex">
+          <input class="form-control me-sm-2" type="search" placeholder="Search">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
       </div>
     </div>
   </nav>
+<!--  <nav-->
+<!--    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"-->
+<!--  >-->
+<!--    <div class="container">-->
+<!--      <a class="navbar-brand" [routerLink]="['/']">RecruiterLite</a>-->
+<!--      <button-->
+<!--        class="navbar-toggler"-->
+<!--        type="button"-->
+<!--        data-toggle="collapse"-->
+<!--        data-target=".navbar-collapse"-->
+<!--        aria-label="Toggle navigation"-->
+<!--        [attr.aria-expanded]="isExpanded"-->
+<!--        (click)="toggle()"-->
+<!--      >-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+<!--      <div-->
+<!--        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"-->
+<!--        [ngClass]="{ show: isExpanded }"-->
+<!--      >-->
+<!--        <ul class="navbar-nav flex-grow">-->
+<!--          <li-->
+<!--            class="nav-item"-->
+<!--            [routerLinkActive]="['link-active']"-->
+<!--            [routerLinkActiveOptions]="{ exact: true }"-->
+<!--          >-->
+<!--            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item" [routerLinkActive]="['link-active']">-->
+<!--            <a class="nav-link text-dark" [routerLink]="['/counter']"-->
+<!--              >Counter</a-->
+<!--            >-->
+<!--          </li>-->
+<!--          <li class="nav-item" [routerLinkActive]="['link-active']">-->
+<!--            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"-->
+<!--              >Fetch data</a-->
+<!--            >-->
+<!--          </li>-->
+<!--          <li class="nav-item" [routerLinkActive]="['link-active']">-->
+<!--            <a class="nav-link text-dark" [routerLink]="['/candidates']"-->
+<!--            >Candidates</a-->
+<!--            >-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </nav>-->
 </header>

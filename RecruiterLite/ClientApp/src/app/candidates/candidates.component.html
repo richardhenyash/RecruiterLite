@@ -3,32 +3,52 @@
 </div>
 <div *ngIf="!(loadingCandidates$ | async)">
   <ul *ngFor="let candidate of candidates">
-    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}} <button (click)="onEditCandidate(candidate.id)">Edit</button> <button (click)="onDeleteCandidate(candidate.id)">Delete</button>
+    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}<button (click)="onEditCandidate(candidate.id)">Edit</button> <button (click)="onDeleteCandidate(candidate.id)">Delete</button>
   </ul>
 </div>
 <div class="row">
   <form [formGroup]="candidateForm" (ngSubmit)="onUpdateCandidate()" class="col-6">
-    <label for="InputFirstName">First Name: </label>
-    <input id="InputFirstName" type="text" formControlName="firstName"><br>
-    <label for="InputLastName">Last Name: </label>
-    <input id="InputLastName" type="text" formControlName="lastName"><br>
-    <label for="InputEmail">Email: </label>
-    <input id="InputEmail" type="text" formControlName="email"><br>
-    <label for="InputPhoneNumber">Phone Number: </label>
-    <input id="InputPhoneNumber" type="text" formControlName="phoneNumber"><br>
-    <label for="InputStreetAddress">Street Address: </label>
-    <input id="InputStreetAddress" type="text" formControlName="streetAddress"><br>
-    <label for="InputPostCode">Post Code: </label>
-    <input id="InputPostCode" type="text" formControlName="postCode"><br>
-    <label for="InputCounty">County: </label>
-    <input id="InputCounty" type="text" formControlName="county"><br>
-    <label for="InputCountry">Country: </label>
-    <input id="InputCountry" type="text" formControlName="country"><br>
-    <label for="InputCompanyId">Company Id: </label>
-    <input id="InputCompanyId" type="number" formControlName="companyId"><br>
-    <p *ngIf="!candidateForm.valid">Complete the form to enable button.</p>
-    <button *ngIf="candidateId" type="submit" [disabled]="!candidateForm.valid">Update Candidate</button>
-    <button *ngIf="!candidateId" type="submit" [disabled]="!candidateForm.valid">Add Candidate</button>
-    <button type="button" (click)="onClearForm()">Clear Form</button>
+    <div class="form-group py-1">
+      <label for="InputFirstName" class="form-label">First Name: </label>
+      <input id="InputFirstName" class="form-control" type="text" formControlName="firstName">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputLastName">Last Name: </label>
+      <input id="InputLastName" class="form-control" type="text" formControlName="lastName">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputEmail">Email: </label>
+      <input id="InputEmail" class="form-control" type="email" formControlName="email">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputPhoneNumber">Phone Number: </label>
+      <input id="InputPhoneNumber" class="form-control" type="text" formControlName="phoneNumber">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputStreetAddress">Street Address: </label>
+      <input id="InputStreetAddress" class="form-control" type="text" formControlName="streetAddress">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputPostCode">Post Code: </label>
+      <input id="InputPostCode" class="form-control" type="text" formControlName="postCode">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputCounty">County: </label>
+      <input id="InputCounty" class="form-control" type="text" formControlName="county">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputCountry">Country: </label>
+      <input id="InputCountry" class="form-control" type="text" formControlName="country">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputCompanyId">Company Id: </label>
+      <input id="InputCompanyId" class="form-control" type="number" formControlName="companyId">
+    </div>
+    <div class="my-2">
+      <p *ngIf="!candidateForm.valid" class="text-danger">Please complete all form fields to add or update a candidate. </p>
+      <button *ngIf="candidateId && candidateForm.valid" type="submit" class="btn btn-success me-2" [disabled]="!candidateForm.valid">Update Candidate</button>
+      <button *ngIf="!candidateId && candidateForm.valid" type="submit" class="btn btn-success me-2" [disabled]="!candidateForm.valid">Add Candidate</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onClearForm()">Clear Form</button>
+    </div>
   </form>
 </div>

@@ -1,0 +1,9 @@
+/* Global styles */
+
+// Add bootstrap variable overrides here, e.g.:
+//$h1-font-size: 1rem;
+
+@import "bootswatch/dist/flatly/variables";
+@import 'bootstrap/scss/bootstrap';
+@import "bootswatch/dist/flatly/bootswatch";
+@import '_variables.scss';

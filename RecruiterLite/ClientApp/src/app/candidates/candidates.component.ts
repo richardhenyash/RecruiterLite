@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 @Component({
   selector: 'app-candidates',
   templateUrl: './candidates.component.html',
+  styleUrls: ['./candidates.component.scss']
 })
 export class CandidatesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
