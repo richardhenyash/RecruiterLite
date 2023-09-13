@@ -5,10 +5,11 @@ import {CandidatesRoutingModule} from "./candidates-routing.module";
 import {CandidatesStoreModule} from "./store/candidates-store.module";
 import {SpinnerModule} from "../shared/spinner/spinner.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import { CandidateEditComponent } from './candidate-edit/candidate-edit.component';
 
 @NgModule({
   imports: [CommonModule, CandidatesRoutingModule, CandidatesStoreModule, SpinnerModule, ReactiveFormsModule],
-  declarations: [CandidatesComponent],
+  declarations: [CandidatesComponent, CandidateEditComponent],
   exports: [CandidatesComponent],
 })
 export class CandidatesModule {}
