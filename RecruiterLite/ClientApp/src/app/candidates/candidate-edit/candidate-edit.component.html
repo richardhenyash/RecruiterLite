@@ -38,6 +38,7 @@
     </div>
     <div class="my-2">
       <p *ngIf="!candidateForm.valid" class="text-danger">Please complete all form fields to add or update a candidate. </p>
+      <button type="button" class="btn btn-secondary back-button me-2" (click)="onBack()"><</button>
       <button *ngIf="candidateId && candidateId != 'new' && candidateForm.valid" type="submit" class="btn btn-success me-2" [disabled]="!candidateForm.valid">Update Candidate</button>
       <button *ngIf="candidateId && candidateId === 'new'" type="submit" class="btn btn-success me-2" [disabled]="!candidateForm.valid">Add Candidate</button>
       <button *ngIf="candidateId && candidateId != 'new'" type="button" class="btn btn-danger me-2" (click)="onDeleteCandidate()">Delete Candidate</button>

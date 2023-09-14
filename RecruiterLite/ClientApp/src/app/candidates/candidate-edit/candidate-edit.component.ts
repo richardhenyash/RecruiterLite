@@ -8,7 +8,7 @@ import {Subject, Subscription, takeUntil, tap} from "rxjs";
 @Component({
   selector: 'app-candidate-edit',
   templateUrl: './candidate-edit.component.html',
-  styleUrls: ['./candidate-edit.component.css']
+  styleUrls: ['./candidate-edit.component.scss']
 })
 export class CandidateEditComponent implements OnInit, OnDestroy {
   constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute) {}
@@ -74,6 +74,9 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
   }
   onDeleteCandidate() {
     this.candidateId && this.candidatesFacade.deleteCandidate(+this.candidateId);
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+  onBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   ngOnDestroy(): void {

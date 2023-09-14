@@ -1,9 +1,21 @@
 <div *ngIf="(loadingCandidates$ | async)">
   <app-spinner message="Loading candidates..."></app-spinner>
 </div>
-<div *ngIf="!(loadingCandidates$ | async)">
-  <ul *ngFor="let candidate of candidates">
-    <li><strong>{{candidate.firstName}}&nbsp;{{candidate.lastName}}</strong>, {{candidate.email}}<button (click)="onEditCandidate(candidate.id)">Edit</button>
-  </ul>
-  <button type="button" [routerLink]="['./', 'new']" class="btn btn-success me-2">Add Candidate</button>
-</div>
+<table *ngIf="!(loadingCandidates$ | async)" class="table table-hover my-4">
+  <thead>
+  <tr class="table-success">
+    <th scope="col">Name</th>
+    <th scope="col">Company</th>
+    <th scope="col">Contact Number</th>
+    <th scope="col">Email Address</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let candidate of candidates" class="table-active" (click)="onEditCandidate(candidate.id)">
+    <th scope="row">{{candidate.firstName + " " + candidate.lastName}}</th>
+    <td>{{ candidate.companyName }}</td>
+    <td>{{ candidate.phoneNumber }}</td>
+    <td>{{ candidate.email }}</td>
+  </tr>
+  </tbody>
+</table>
