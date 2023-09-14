@@ -4,6 +4,7 @@ import {Candidate} from "../../models/Candidate";
 import {CandidatesFacade} from "../store/candidates.facade";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subject, Subscription, takeUntil, tap} from "rxjs";
+import {ConfirmationModalService} from "../../shared/confirmation-modal/confirmation-modal.service";
 
 @Component({
   selector: 'app-candidate-edit',
@@ -11,7 +12,7 @@ import {Subject, Subscription, takeUntil, tap} from "rxjs";
   styleUrls: ['./candidate-edit.component.scss']
 })
 export class CandidateEditComponent implements OnInit, OnDestroy {
-  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute) {}
+  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
 
   public candidateId: number | string | undefined;
   public candidates: Candidate[] = [];
@@ -73,8 +74,15 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDeleteCandidate() {
-    this.candidateId && this.candidatesFacade.deleteCandidate(+this.candidateId);
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.confirmationModal.confirm("Delete Candidate", "Are you sure you want to delete the candidate?", "Delete", "Cancel")
+      // Executes if confirm clicked
+      .then((confirmed) => {
+        this.candidateId && this.candidatesFacade.deleteCandidate(+this.candidateId);
+        this.router.navigate(['../'], { relativeTo: this.route });
+      })
+      // Executes if cancel clicked
+      .catch(() => {
+      })
   }
   onBack() {
     this.router.navigate(['../'], { relativeTo: this.route });

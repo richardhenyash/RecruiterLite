@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { API_BASE_URL } from "./api/base-api-service";
 import {environment} from "../environments/environment";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {NgbActiveModal, NgbModal, NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,15 +28,18 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    NgbModalModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
       name: 'NgRx RecruiterLite',
       logOnly: environment.production
     }),
     EffectsModule.forRoot([]),
+    NgbModule,
   ],
   providers: [
     {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
+    NgbActiveModal,
   ],
   bootstrap: [AppComponent]
 })

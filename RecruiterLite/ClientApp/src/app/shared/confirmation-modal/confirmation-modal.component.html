@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <div class="modal-title">{{ modalTitle }}</div>
+  <button
+    *ngIf="showCloseCross"
+    type="button"
+    class="btn-close modal-close-custom"
+    aria-describedby="modal-body"
+    (click)="dismissModal(false)"></button>
+</div>
+<div class="modal-body modal-body-custom">
+  <p [innerHTML]="modalMessage"></p>
+</div>
+<div class="modal-footer">
+  <button id="cancelButton" class="btn btn-success" (click)="dismissModal(false)">{{cancelLabel}}</button>
+  <button class="btn btn-danger" id="confirmButton" (click)="confirmModal(true)">{{confirmLabel}}</button>
+</div>
