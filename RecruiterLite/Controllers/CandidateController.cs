@@ -60,7 +60,7 @@ public class CandidateController : ControllerBase
         return _mapper.Map<CandidateResponse>(candidate);
     }
 
-    // POST: api/Candidate/id (id is optional)
+    // POST: api/Candidate
     [HttpPost]
     public async Task<ActionResult<CandidateResponse>> PostCandidate(CandidateRequest candidateRequest)
     {

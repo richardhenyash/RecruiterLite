@@ -15,6 +15,7 @@ import {FilterOption} from "../../models/FilterOption";
 export class CandidateEditComponent implements OnInit, OnDestroy {
   constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
 
+  public submitted = false;
   public candidateId: number | string | undefined;
   public candidateToEdit: Candidate | undefined = undefined;
   public companies: Company[] = [{
@@ -57,13 +58,14 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe((params: any) => {
       this.candidateId = params['id'];
     });
-    if (this.candidateId) {
-      this.candidatesFacade.loadCandidate(+this.candidateId);
+    if (this.candidateId === "new") {
+      return;
     }
+    this.candidateId && this.candidatesFacade.loadCandidate(+this.candidateId);
     this.candidatesFacade.candidate$
       .pipe(
         tap((candidateToEdit) => {
-          if (candidateToEdit) {
+          if (this.candidateId != "new" && candidateToEdit) {
             this.candidateToEdit = candidateToEdit;
             this.candidateForm.setValue({
               firstName: candidateToEdit.firstName,
@@ -90,6 +92,7 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     }))
   }
   onUpdateCandidate() {
+    this.submitted = true;
     let updatedCandidate = this.candidateForm.value as Candidate;
     if (this.candidateId){
       updatedCandidate.id = +this.candidateId;

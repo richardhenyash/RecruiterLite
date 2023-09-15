@@ -7,10 +7,17 @@ namespace RecruiterLite.Mappings;
 
 public class MappingProfile : Profile {
     public MappingProfile() {
-        // Add as many of these lines as you need to map your objects
+        
+        // Candidates
         CreateMap<CandidateRequest, Candidate>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
         CreateMap<Candidate, CandidateResponse>()
             .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(c => c.Company.CompanyName));
+        
+        // Companies
+        CreateMap<CompanyRequest, Company>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+        CreateMap<Company, CompanyResponse>()
+            .ForMember(dest => dest.HiringManagerName, opt => opt.MapFrom(c => c.Candidate.FirstName + " " + c.Candidate.LastName));
     }
 }
