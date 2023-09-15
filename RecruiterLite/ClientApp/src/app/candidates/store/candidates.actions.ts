@@ -8,6 +8,10 @@ export enum CandidatesActionTypes {
   LOAD_CANDIDATES_SUCCESS = '[Candidates] Load Candidates success',
   LOAD_CANDIDATES_ERROR = '[Candidates] Load Candidates error',
 
+  LOAD_CANDIDATE = '[Candidates] Load Candidate',
+  LOAD_CANDIDATE_SUCCESS = '[Candidates] Load Candidate success',
+  LOAD_CANDIDATE_ERROR = '[Candidates] Load Candidate error',
+
   SAVE_CANDIDATE = '[Candidates] Save Candidate',
   SAVE_CANDIDATE_SUCCESS = '[Candidates] Save Candidate success',
   SAVE_CANDIDATE_ERROR = '[Candidates] Save Candidate error',
@@ -23,6 +27,16 @@ export const loadCandidatesSuccess = createAction(
 );
 export const loadCandidatesError = createAction(
   CandidatesActionTypes.LOAD_CANDIDATES_ERROR,
+  props<{ error: string }>()
+);
+
+export const loadCandidate = createAction(CandidatesActionTypes.LOAD_CANDIDATE, props<{ id: number }>());
+export const loadCandidateSuccess = createAction(
+  CandidatesActionTypes.LOAD_CANDIDATE_SUCCESS,
+  props<{ response: Candidate }>()
+);
+export const loadCandidateError = createAction(
+  CandidatesActionTypes.LOAD_CANDIDATE_ERROR,
   props<{ error: string }>()
 );
 export const saveCandidate = createAction(

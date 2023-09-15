@@ -14,6 +14,10 @@ export class CandidatesApiService extends BaseApiService {
   public loadCandidates(): Observable<Array<Candidate>> {
     return this.get(`/api/candidate`, null, false);
   }
+
+  public loadCandidate(id: number): Observable<Candidate> {
+    return this.get(`/api/candidate/${id}`, null, false);
+  }
   public saveCandidate(request: Candidate): Observable<Candidate> {
     return this.post('/api/candidate', request, false);
   }

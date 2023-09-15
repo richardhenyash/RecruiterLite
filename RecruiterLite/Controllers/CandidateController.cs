@@ -21,7 +21,7 @@ public class CandidateController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
-    // GET: api/Candidate
+    // GET: api/Candidates
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates()
     {

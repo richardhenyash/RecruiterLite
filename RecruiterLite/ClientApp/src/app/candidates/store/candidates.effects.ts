@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {CandidatesApiService} from "./candidates-api.service";
 import {
   CandidatesActionTypes, deleteCandidateError, deleteCandidateSuccess, loadCandidates,
-  loadCandidatesSuccess,
+  loadCandidatesSuccess, loadCandidateSuccess,
   saveCandidateError,
   saveCandidateSuccess
 } from "./candidates.actions";
@@ -18,6 +18,15 @@ export class CandidatesEffects {
       ofType(CandidatesActionTypes.LOAD_CANDIDATES),
       switchMap(() =>
         this.candidatesApiService.loadCandidates().pipe(map((response) => loadCandidatesSuccess({response})))
+      )
+    );
+  });
+
+  loadCandidate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CandidatesActionTypes.LOAD_CANDIDATE),
+      switchMap(({ id }) =>
+        this.candidatesApiService.loadCandidate(id).pipe(map((response) => loadCandidateSuccess({response})))
       )
     );
   });

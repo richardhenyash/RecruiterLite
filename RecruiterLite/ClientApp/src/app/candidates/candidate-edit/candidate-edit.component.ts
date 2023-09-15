@@ -16,7 +16,7 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
   constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
 
   public candidateId: number | string | undefined;
-  public candidates: Candidate[] = [];
+  public candidateToEdit: Candidate | undefined = undefined;
   public companies: Company[] = [{
     id: 1,
     companyName: "ACME Ltd",
@@ -57,29 +57,25 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe((params: any) => {
       this.candidateId = params['id'];
     });
-    this.candidatesFacade.loadCandidates();
-    this.candidatesFacade.candidates$
+    if (this.candidateId) {
+      this.candidatesFacade.loadCandidate(+this.candidateId);
+    }
+    this.candidatesFacade.candidate$
       .pipe(
-        tap((candidates) => {
-          if (candidates) {
-            this.candidates = candidates;
-            if (this.candidateId) {
-              let candidateId = +this.candidateId;
-              let candidateToEdit = this.candidates.filter((c => c.id === candidateId))[0];
-              if (candidateToEdit) {
-                this.candidateForm.setValue({
-                  firstName: candidateToEdit.firstName,
-                  lastName: candidateToEdit.lastName,
-                  email: candidateToEdit.email,
-                  phoneNumber: candidateToEdit.phoneNumber,
-                  streetAddress: candidateToEdit.streetAddress,
-                  postCode: candidateToEdit.postCode,
-                  county: candidateToEdit.county,
-                  country: candidateToEdit.country,
-                  companyId: candidateToEdit?.companyId ?? null,
-                })
-              }
-            }
+        tap((candidateToEdit) => {
+          if (candidateToEdit) {
+            this.candidateToEdit = candidateToEdit;
+            this.candidateForm.setValue({
+              firstName: candidateToEdit.firstName,
+              lastName: candidateToEdit.lastName,
+              email: candidateToEdit.email,
+              phoneNumber: candidateToEdit.phoneNumber,
+              streetAddress: candidateToEdit.streetAddress,
+              postCode: candidateToEdit.postCode,
+              county: candidateToEdit.county,
+              country: candidateToEdit.country,
+              companyId: candidateToEdit?.companyId ?? null,
+            })
           }
         }),
         takeUntil(this.unsubscribe$)

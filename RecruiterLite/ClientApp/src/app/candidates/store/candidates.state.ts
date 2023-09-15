@@ -3,6 +3,9 @@ import {ApiState} from "../../models/ApiState";
 
 export interface CandidatesState {
   candidates: Array<Candidate> | null;
+  candidatesStatus: ApiState;
+
+  candidate: Candidate | null;
   candidateStatus: ApiState;
 
   saveCandidate: Candidate | null;
@@ -16,6 +19,9 @@ export interface CandidatesState {
 
 export const initialState: CandidatesState = {
   candidates: null,
+  candidatesStatus: ApiState.INITIAL,
+
+  candidate: null,
   candidateStatus: ApiState.INITIAL,
 
   saveCandidate: null,

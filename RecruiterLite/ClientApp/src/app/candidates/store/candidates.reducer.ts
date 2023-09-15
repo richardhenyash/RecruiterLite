@@ -1,10 +1,10 @@
 import {createReducer, on} from "@ngrx/store";
 import {CandidatesState, initialState} from "./candidates.state";
 import {
-  deleteCandidate, deleteCandidateError, deleteCandidateSuccess,
+  deleteCandidate, deleteCandidateError, deleteCandidateSuccess, loadCandidate, loadCandidateError,
   loadCandidates,
   loadCandidatesError,
-  loadCandidatesSuccess,
+  loadCandidatesSuccess, loadCandidateSuccess,
   saveCandidate, saveCandidateError,
   saveCandidateSuccess
 } from "./candidates.actions";
@@ -13,16 +13,27 @@ export const candidateFeatureKey = 'candidate';
 export const candidateReducer = createReducer(
   initialState,
 
-  on(loadCandidates, (state): CandidatesState => ({ ...state, candidateStatus: ApiState.LOADING })),
+  on(loadCandidates, (state): CandidatesState => ({ ...state, candidatesStatus: ApiState.LOADING })),
   on(
     loadCandidatesSuccess,
     (state, { response }): CandidatesState => ({
       ...state,
       candidates: response,
+      candidatesStatus: ApiState.SUCCESS,
+    })
+  ),
+  on(loadCandidatesError, (state, { error }): CandidatesState => ({ ...state, error, candidatesStatus: ApiState.FAIL })),
+
+  on(loadCandidate, (state): CandidatesState => ({ ...state, candidateStatus: ApiState.LOADING })),
+  on(
+    loadCandidateSuccess,
+    (state, { response }): CandidatesState => ({
+      ...state,
+      candidate: response,
       candidateStatus: ApiState.SUCCESS,
     })
   ),
-  on(loadCandidatesError, (state, { error }): CandidatesState => ({ ...state, error, candidateStatus: ApiState.FAIL })),
+  on(loadCandidateError, (state, { error }): CandidatesState => ({ ...state, error, candidateStatus: ApiState.FAIL })),
 
   on(saveCandidate, (state): CandidatesState => ({ ...state, saveCandidateStatus: ApiState.LOADING })),
   on(saveCandidateSuccess,(state): CandidatesState => ({...state, saveCandidateStatus: ApiState.SUCCESS})),
