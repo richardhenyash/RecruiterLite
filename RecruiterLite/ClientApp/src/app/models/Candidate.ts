@@ -10,4 +10,5 @@ export interface Candidate {
   country: string
   companyId?: number
   companyName?: string
+  isHiringManager: boolean
 }

@@ -22,19 +22,18 @@
               >Fetch data</a
             >
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/candidates']"
-            >Candidates</a
-            >
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <li class="nav-item dropdown" [routerLinkActive]="['link-active']">
+            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Candidates</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
+              <a class="dropdown-item" [routerLink]="['/candidates']">View</a>
+              <a class="dropdown-item" [routerLink]="['/candidates/new']">Add</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown" [routerLinkActive]="['link-active']">
+            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Companies</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" [routerLink]="['/companies']">View</a>
+              <a class="dropdown-item" [routerLink]="['/companies/new']">Add</a>
             </div>
           </li>
         </ul>

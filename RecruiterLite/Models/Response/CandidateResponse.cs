@@ -13,4 +13,5 @@ public class CandidateResponse
     public string Country { get; set; }
     public int? CompanyId { get; set; }
     public string? CompanyName { get; set; }
+    public bool IsHiringManager { get; set; }
 }

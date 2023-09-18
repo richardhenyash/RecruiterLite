@@ -1,0 +1,9 @@
+@import '../../variables';
+
+.table-active {
+  cursor: pointer;
+}
+
+.table-active:nth-child(odd){
+  background: rgba(0,0,0,0.1);
+}

@@ -34,12 +34,16 @@
     </div>
     <div class="form-group py-1">
       <label for="companySelect" class="form-label">Company</label>
-      <select class="form-select" id="companySelect" formControlName="companyId">>
+      <select class="form-select" id="companySelect" formControlName="companyId">
         <option [value]=null>Select Company</option>
         <option [value]="company.value" *ngFor="let company of companySelectOptions">
           {{ company.name }}
         </option>
       </select>
+    </div>
+    <div class="form-group form-check py-2">
+      <input class="form-check-input" formControlName="isHiringManager" type="checkbox" value="" id="hiringManagerCheck">
+      <label class="form-check-label" for="hiringManagerCheck">Hiring Manager</label>
     </div>
     <div class="my-3">
       <p *ngIf="candidateForm.dirty && !candidateForm.valid" class="text-danger">Please complete all form fields to add or update a candidate. </p>

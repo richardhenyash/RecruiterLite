@@ -25,39 +25,45 @@ public class CompanyController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies()
     {
-        var companySpecification = new CompaniesWithHiringManagerSpecification();
+        var companySpecification = new CompaniesSpecification();
         var companyList = await _unitOfWork.Repository<Company>().GetEntitiesWithSpecification(companySpecification);
         if (companyList == null)
         {
             return NotFound("No companies currently exist in the database.");
         }
-        return _mapper.Map<List<CompanyResponse>>(companyList); ;
-    }
-    
-    // GET: api/Company/ByHiringManager/id
-    [HttpGet("ByHiringManager/{id}")]
-    public async Task<ActionResult<CompanyResponse>> GetCompanyByHiringManager(int id)
-    {
-        var companySpecification = new CompanyWithHiringManagerByHiringManagerIdSpecification(id);
-        var company = await _unitOfWork.Repository<Company>().GetEntityWithSpecification(companySpecification);
-        if (company == null)
+        var companyResponse = _mapper.Map<List<CompanyResponse>>(companyList);
+        foreach (var company in companyResponse)
         {
-            return NotFound($"No companies are currently linked to hiring manager with id of {id}.");
+            var hiringManagerSpecification = new HiringManagersByCompanyIdSpecification(company.Id);
+            var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification);
+            if (hiringManagers != null)
+            {
+                company.HiringManagers = _mapper.Map<List<CandidateResponse>>(hiringManagers);
+            }
         }
-        return _mapper.Map<CompanyResponse>(company); ;
+
+        return companyResponse;
     }
     
     // GET: api/Company/1
     [HttpGet("{id}")]
     public async Task<ActionResult<CompanyResponse>> GetCompany(int id)
     {
-        var companySpecification = new CompaniesWithHiringManagerSpecification(id);
+        var companySpecification = new CompaniesSpecification(id);
+       
         var company = await _unitOfWork.Repository<Company>().GetEntityWithSpecification(companySpecification);
         if (company == null)
         {
             return NotFound($"Company with id of {id} not found.");
         }
-        return _mapper.Map<CompanyResponse>(company);
+        var companyResponse = _mapper.Map<CompanyResponse>(company);
+        var hiringManagerSpecification = new HiringManagersByCompanyIdSpecification(id);
+        var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification);
+        if (hiringManagers != null)
+        {
+            companyResponse.HiringManagers = _mapper.Map<List<CandidateResponse>>(hiringManagers);
+        }
+        return companyResponse;
     }
 
     // POST: api/Company

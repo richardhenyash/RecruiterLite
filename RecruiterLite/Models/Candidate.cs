@@ -14,9 +14,10 @@ public class Candidate: BaseEntity
     public string PostCode { get; set; }
     public string County { get; set; }
     public string Country { get; set; }
+    
+    public bool IsHiringManager { get; set; }
         
     [ForeignKey("CompanyId")]
     public int? CompanyId { get; set; }
-    
     public virtual Company? Company { get; set; }
 }

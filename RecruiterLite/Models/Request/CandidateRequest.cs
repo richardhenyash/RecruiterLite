@@ -12,4 +12,5 @@ public class CandidateRequest
     public string County { get; set; }
     public string Country { get; set; }
     public int? CompanyId { get; set; }
+    public bool IsHiringManager { get; set; }
 }

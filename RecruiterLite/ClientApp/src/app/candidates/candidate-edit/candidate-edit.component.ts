@@ -5,37 +5,19 @@ import {CandidatesFacade} from "../store/candidates.facade";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subject, Subscription, takeUntil, tap} from "rxjs";
 import {ConfirmationModalService} from "../../shared/confirmation-modal/confirmation-modal.service";
-import {Company} from "../../models/Company";
 import {FilterOption} from "../../models/FilterOption";
+import {CompaniesFacade} from "../../companies/store/companies.facade";
 @Component({
   selector: 'app-candidate-edit',
   templateUrl: './candidate-edit.component.html',
   styleUrls: ['./candidate-edit.component.scss']
 })
 export class CandidateEditComponent implements OnInit, OnDestroy {
-  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
+  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly companiesFacade: CompaniesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
 
   public submitted = false;
   public candidateId: number | string | undefined;
   public candidateToEdit: Candidate | undefined = undefined;
-  public companies: Company[] = [{
-    id: 1,
-    companyName: "ACME Ltd",
-    phoneNumber: "123456789",
-    streetAddress: "10 New Street",
-    postCode: "W1 6FE",
-    county: "London",
-    country: "United Kingdom"
-  },
-    {
-      id: 2,
-      companyName: "Casio Ltd",
-      phoneNumber: "123456789",
-      streetAddress: "5 Old Street",
-      postCode: "W1 6FE",
-      county: "London",
-      country: "United Kingdom"
-    }];
 
   public companySelectOptions: FilterOption[] = [];
 
@@ -52,9 +34,11 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     county: new FormControl<string>('', Validators.required),
     country: new FormControl<string>('', Validators.required),
     companyId: new FormControl<number | null>(null),
+    isHiringManager: new FormControl<boolean>(false),
   });
 
   ngOnInit(): void {
+    this.companiesFacade.loadCompanies();
     this.routeSub = this.route.params.subscribe((params: any) => {
       this.candidateId = params['id'];
     });
@@ -77,19 +61,30 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
               county: candidateToEdit.county,
               country: candidateToEdit.country,
               companyId: candidateToEdit?.companyId ?? null,
+              isHiringManager: candidateToEdit.isHiringManager,
             })
           }
         }),
         takeUntil(this.unsubscribe$)
       )
       .subscribe();
-    this.companySelectOptions = this.companies.map((c => {
-      return {
-        name: c.companyName,
-        value: c.id,
-        id: c.id,
-      } as FilterOption
-    }))
+
+    this.companiesFacade.companies$
+      .pipe(
+        tap((companies) => {
+          if (companies) {
+            this.companySelectOptions = companies.map((c => {
+              return {
+                name: c.companyName,
+                value: c.id,
+                id: c.id,
+              } as FilterOption
+            }))
+          }
+        }),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe();
   }
   onUpdateCandidate() {
     this.submitted = true;

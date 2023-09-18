@@ -1,0 +1,35 @@
+<div class="row">
+  <form [formGroup]="companyForm" (ngSubmit)="onUpdateCompany()" class="col-6 py-3">
+    <div class="form-group py-1">
+      <label for="InputCompanyName" class="form-label">Company Name: </label>
+      <input id="InputCompanyName" class="form-control" type="text" formControlName="companyName">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputPhoneNumber">Phone Number: </label>
+      <input id="InputPhoneNumber" class="form-control" type="text" formControlName="phoneNumber">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputStreetAddress">Street Address: </label>
+      <input id="InputStreetAddress" class="form-control" type="text" formControlName="streetAddress">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputPostCode">Post Code: </label>
+      <input id="InputPostCode" class="form-control" type="text" formControlName="postCode">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputCounty">County: </label>
+      <input id="InputCounty" class="form-control" type="text" formControlName="county">
+    </div>
+    <div class="form-group py-1">
+      <label for="InputCountry">Country: </label>
+      <input id="InputCountry" class="form-control" type="text" formControlName="country">
+    </div>
+    <div class="my-3">
+      <p *ngIf="companyForm.dirty && !companyForm.valid" class="text-danger">Please complete all form fields to add or update a candidate. </p>
+      <button type="button" class="btn btn-secondary back-button me-2" (click)="onBack()"><</button>
+      <button *ngIf="companyId && companyId != 'new' && companyForm.valid" type="submit" class="btn btn-success me-2" [disabled]="!companyForm.valid">Update Company</button>
+      <button *ngIf="companyId && companyId === 'new'" type="submit" class="btn btn-success me-2" [disabled]="!companyForm.valid">Add Company</button>
+      <button *ngIf="companyId && companyId != 'new'" type="button" class="btn btn-danger me-2" (click)="onDeleteCompany()">Delete Company</button>
+    </div>
+  </form>
+</div>

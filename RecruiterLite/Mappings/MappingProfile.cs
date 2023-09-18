@@ -18,6 +18,6 @@ public class MappingProfile : Profile {
         CreateMap<CompanyRequest, Company>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
         CreateMap<Company, CompanyResponse>()
-            .ForMember(dest => dest.HiringManagerName, opt => opt.MapFrom(c => c.Candidate.FirstName + " " + c.Candidate.LastName));
+            .ForMember(dest => dest.HiringManagers, opt => opt.Ignore());
     }
 }

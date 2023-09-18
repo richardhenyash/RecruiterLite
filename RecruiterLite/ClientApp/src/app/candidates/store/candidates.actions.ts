@@ -1,6 +1,3 @@
-/*
- * @Copyright The Gap Partnership. All rights reserved.
- */
 import { createAction, props } from '@ngrx/store';
 import {Candidate} from "../../models/Candidate";
 export enum CandidatesActionTypes {

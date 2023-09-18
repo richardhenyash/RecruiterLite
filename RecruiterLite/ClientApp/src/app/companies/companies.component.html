@@ -1,0 +1,24 @@
+<div *ngIf="(loadingCompanies$ | async)">
+  <app-spinner message="Loading candidates..."></app-spinner>
+</div>
+<div *ngIf="!(loadingCompanies$ | async)" >
+  <table class="table table-hover my-4">
+    <thead>
+    <tr class="table-success">
+      <th scope="col">Company Name</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Street Address</th>
+      <th scope="col">Hiring Manager(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let company of companies" class="table-active" (click)="onEditCompany(company.id)">
+      <th scope="row">{{ company.companyName }}</th>
+      <td>{{ company.phoneNumber }}</td>
+      <td>{{ company.streetAddress }}</td>
+      <td>{{ company.hiringManagerId }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-success" [routerLink]="['/companies', 'new']">Add</button>
+</div>

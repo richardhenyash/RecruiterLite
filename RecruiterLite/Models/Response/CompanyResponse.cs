@@ -9,6 +9,5 @@ public class CompanyResponse
     public string PostCode { get; set; }
     public string County { get; set; }
     public string Country { get; set; }
-    public int? HiringManagerId { get; set; }
-    public string? HiringManagerName { get; set; }
+    public IReadOnlyList<CandidateResponse>? HiringManagers { get; set; }
 }

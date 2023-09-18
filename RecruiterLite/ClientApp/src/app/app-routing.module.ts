@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent },
   { path: 'candidates', loadChildren: () => import('./candidates/candidates.module').then((m) => m.CandidatesModule), },
+  { path: 'companies', loadChildren: () => import('./companies/companies.module').then((m) => m.CompaniesModule), },
 ];
 
 @NgModule({
