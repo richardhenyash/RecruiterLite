@@ -1,3 +1,5 @@
+import {Candidate} from "./Candidate";
+
 export interface Company {
   id?: number
   companyName: string
@@ -6,5 +8,5 @@ export interface Company {
   postCode: string
   county: string
   country: string
-  hiringManagerId?: number
+  hiringManagers?: Candidate[]
 }

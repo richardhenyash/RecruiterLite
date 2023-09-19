@@ -33,6 +33,11 @@ export class CompaniesComponent implements OnInit {
       this.router.navigate(['/companies', +id]);
     }
   }
+  onEditCandidate(id: string | number | undefined) {
+    if (id) {
+      this.router.navigate(['/candidates', +id]);
+    }
+  }
   onBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
