@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil, tap} from "rxjs";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Company} from "../models/Company";
 import {CompaniesFacade} from "./store/companies.facade";
 
@@ -11,7 +11,7 @@ import {CompaniesFacade} from "./store/companies.facade";
 })
 export class CompaniesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
-  constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router) {}
+  constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router, private readonly route: ActivatedRoute) {}
 
   public companies: Company[] = [];
   public loadingCompanies$ = this.companiesFacade.loadingCompanies$;
@@ -32,5 +32,8 @@ export class CompaniesComponent implements OnInit {
     if (id) {
       this.router.navigate(['/companies', +id]);
     }
+  }
+  onBack() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }
