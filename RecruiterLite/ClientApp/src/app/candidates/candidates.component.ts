@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { Candidate } from "../models/Candidate";
 import { CandidatesFacade } from "./store/candidates.facade";
 import { Subject, takeUntil, tap} from "rxjs";
@@ -12,7 +12,8 @@ import {Location} from "@angular/common";
 })
 export class CandidatesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
-  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router) {}
+  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router,
+              private readonly cdf: ChangeDetectorRef) {}
 
   public candidates: Candidate[] = [];
   public loadingCandidates$ = this.candidatesFacade.loadingCandidates$;
@@ -32,6 +33,12 @@ export class CandidatesComponent implements OnInit {
   onEditCandidate(id: string | number | undefined) {
     if (id) {
       this.router.navigate(['/candidates', +id]);
+    }
+  }
+
+  onToggleIsHiringManager(id: number | string | undefined) {
+    if (id) {
+      this.candidatesFacade.toggleIsHiringManager(+id);
     }
   }
 }

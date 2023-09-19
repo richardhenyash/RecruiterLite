@@ -13,6 +13,10 @@ export enum CandidatesActionTypes {
   SAVE_CANDIDATE_SUCCESS = '[Candidates] Save Candidate success',
   SAVE_CANDIDATE_ERROR = '[Candidates] Save Candidate error',
 
+  TOGGLE_IS_HIRING_MANAGER = '[Candidates] Toggle isHiringManager',
+  TOGGLE_IS_HIRING_MANAGER_SUCCESS = '[Candidates] Toggle isHiringManager success',
+  TOGGLE_IS_HIRING_MANAGER_ERROR = '[Candidates] Toggle isHiringManager error',
+
   DELETE_CANDIDATE = '[Candidates] Delete Candidate',
   DELETE_CANDIDATE_SUCCESS = '[Candidates] Delete Candidate success',
   DELETE_CANDIDATE_ERROR = '[Candidates] Delete Candidate error',
@@ -45,6 +49,16 @@ export const saveCandidateSuccess = createAction(
   props<{ response: Candidate }>()
 );
 export const saveCandidateError = createAction(CandidatesActionTypes.SAVE_CANDIDATE_ERROR, props<{ error: string }>());
+
+export const toggleIsHiringManager = createAction(
+  CandidatesActionTypes.TOGGLE_IS_HIRING_MANAGER,
+  props<{ id: number }>()
+);
+export const toggleIsHiringManagerSuccess = createAction(
+  CandidatesActionTypes.TOGGLE_IS_HIRING_MANAGER_SUCCESS,
+  props<{ response: Candidate }>()
+);
+export const toggleIsHiringManagerError = createAction(CandidatesActionTypes.TOGGLE_IS_HIRING_MANAGER_ERROR, props<{ error: string }>());
 export const deleteCandidate = createAction(
   CandidatesActionTypes.DELETE_CANDIDATE,
   props<{ id: number }>()

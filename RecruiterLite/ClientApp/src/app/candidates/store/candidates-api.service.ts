@@ -21,6 +21,9 @@ export class CandidatesApiService extends BaseApiService {
   public saveCandidate(request: Candidate): Observable<Candidate> {
     return this.post('/api/candidate', request, false);
   }
+  public toggleIsHiringManager(id: number): Observable<any> {
+    return this.put(`/api/candidate/toggleIsHiringManager/${id}`, null, false);
+  }
   public deleteCandidate(id: number): Observable<any> {
     return this.delete(`/api/candidate/${id}`, null, false);
   }

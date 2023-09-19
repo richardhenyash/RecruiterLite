@@ -5,7 +5,7 @@ import {
   CandidatesActionTypes, deleteCandidateError, deleteCandidateSuccess, loadCandidates,
   loadCandidatesSuccess, loadCandidateSuccess,
   saveCandidateError,
-  saveCandidateSuccess
+  saveCandidateSuccess, toggleIsHiringManagerError, toggleIsHiringManagerSuccess
 } from "./candidates.actions";
 import {map, of, switchMap} from "rxjs";
 import {catchError} from "rxjs/operators";
@@ -45,6 +45,17 @@ export class CandidatesEffects {
     );
   });
 
+  toggleIsHiringManager$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CandidatesActionTypes.TOGGLE_IS_HIRING_MANAGER),
+      switchMap(({ id }) =>
+        this.candidatesApiService.toggleIsHiringManager(id).pipe(map((response) => toggleIsHiringManagerSuccess({response})),
+          catchError((error: HttpErrorResponse) => of(toggleIsHiringManagerError({ error: error.message })))
+        )
+      )
+    );
+  });
+
   deleteCandidate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CandidatesActionTypes.DELETE_CANDIDATE),
@@ -62,6 +73,7 @@ export class CandidatesEffects {
       ofType(
         CandidatesActionTypes.SAVE_CANDIDATE_SUCCESS,
         CandidatesActionTypes.DELETE_CANDIDATE_SUCCESS,
+        CandidatesActionTypes.TOGGLE_IS_HIRING_MANAGER,
       ),
       map((response) => loadCandidates())
     );

@@ -11,6 +11,9 @@ export interface CandidatesState {
   saveCandidate: Candidate | null;
   saveCandidateStatus: ApiState;
 
+  toggleIsHiringManager: Candidate | null;
+  toggleIsHiringManagerStatus: ApiState;
+
   deleteCandidate: Candidate | null;
   deleteCandidateStatus: ApiState;
 
@@ -26,6 +29,9 @@ export const initialState: CandidatesState = {
 
   saveCandidate: null,
   saveCandidateStatus: ApiState.INITIAL,
+
+  toggleIsHiringManager: null,
+  toggleIsHiringManagerStatus: ApiState.INITIAL,
 
   deleteCandidate: null,
   deleteCandidateStatus: ApiState.INITIAL,

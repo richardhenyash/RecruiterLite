@@ -26,5 +26,6 @@ export const selectLoadingCandidates = createSelector(
     state.candidatesStatus === ApiState.LOADING ||
     state.candidateStatus === ApiState.LOADING ||
     state.saveCandidateStatus === ApiState.LOADING ||
+    state.toggleIsHiringManagerStatus === ApiState.LOADING ||
     state.deleteCandidateStatus === ApiState.LOADING
 );
