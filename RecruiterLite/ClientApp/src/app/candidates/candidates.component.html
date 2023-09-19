@@ -17,7 +17,7 @@
       <th scope="row">{{candidate.firstName + " " + candidate.lastName}}</th>
       <td>{{ candidate.companyName }}</td>
       <td>{{ candidate.phoneNumber }}</td>
-      <td>{{ candidate.email }}</td>
+      <td><a class="link">{{ candidate.email }}</a></td>
       <td>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" [checked]="candidate.isHiringManager" disabled>
@@ -26,6 +26,6 @@
     </tr>
     </tbody>
   </table>
-  <button type="button" class="btn btn-secondary back-button me-2" (click)="onBack()"><</button>
+  <app-back-button></app-back-button>
   <button class="btn btn-success" [routerLink]="['/candidates', 'new']">Add</button>
 </div>

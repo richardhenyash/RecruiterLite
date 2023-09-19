@@ -7,13 +7,16 @@ import {Subject, Subscription, takeUntil, tap} from "rxjs";
 import {ConfirmationModalService} from "../../shared/confirmation-modal/confirmation-modal.service";
 import {FilterOption} from "../../models/FilterOption";
 import {CompaniesFacade} from "../../companies/store/companies.facade";
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-candidate-edit',
   templateUrl: './candidate-edit.component.html',
   styleUrls: ['./candidate-edit.component.scss']
 })
 export class CandidateEditComponent implements OnInit, OnDestroy {
-  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly companiesFacade: CompaniesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
+  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly companiesFacade: CompaniesFacade,
+              private readonly router: Router, private readonly route: ActivatedRoute,
+              private confirmationModal: ConfirmationModalService, private location: Location) {}
 
   public submitted = false;
   public candidateId: number | string | undefined;
@@ -92,21 +95,20 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
       updatedCandidate.id = +this.candidateId;
     }
     this.candidateForm.valid && updatedCandidate && (this.candidatesFacade.saveCandidate(updatedCandidate));
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.location.back();
+    // this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDeleteCandidate() {
     this.confirmationModal.confirm("Delete Candidate", "Are you sure you want to delete the candidate?", "Delete", "Cancel")
       // Executes if confirm clicked
       .then((confirmed) => {
         this.candidateId && this.candidatesFacade.deleteCandidate(+this.candidateId);
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.location.back();
+        // this.router.navigate(['../'], { relativeTo: this.route });
       })
       // Executes if cancel clicked
       .catch(() => {
       })
-  }
-  onBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();

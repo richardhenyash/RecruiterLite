@@ -18,12 +18,12 @@
       <td>{{ company.streetAddress }}</td>
       <td>
         <span *ngFor="let hiringManager of company.hiringManagers; index as i">
-          <a *ngIf="company.hiringManagers && i+1 < company.hiringManagers.length" class="link-opacity-100" (click)="onEditCandidate(hiringManager.id)" >{{hiringManager.fullName + ", "}}</a>
-          <a *ngIf="company.hiringManagers && i+1 === company.hiringManagers.length" class="link-opacity-100" (click)="onEditCandidate(hiringManager.id)" >{{hiringManager.fullName}}</a>
+          <a *ngIf="company.hiringManagers && i+1 < company.hiringManagers.length" class="link" (click)="onEditCandidate(hiringManager.id)" >{{hiringManager.fullName + ", "}}</a>
+          <a *ngIf="company.hiringManagers && i+1 === company.hiringManagers.length" class="link" (click)="onEditCandidate(hiringManager.id)" >{{hiringManager.fullName}}</a>
         </span></td>
     </tr>
     </tbody>
   </table>
-  <button type="button" class="btn btn-secondary back-button me-2" (click)="onBack()"><</button>
+  <app-back-button></app-back-button>
   <button class="btn btn-success" [routerLink]="['/companies', 'new']">Add</button>
 </div>

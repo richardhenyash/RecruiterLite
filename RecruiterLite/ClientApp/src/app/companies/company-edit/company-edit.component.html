@@ -26,7 +26,7 @@
     </div>
     <div class="my-3">
       <p *ngIf="companyForm.dirty && !companyForm.valid" class="text-danger">Please complete all form fields to add or update a candidate. </p>
-      <button type="button" class="btn btn-secondary back-button me-2" (click)="onBack()"><</button>
+      <app-back-button></app-back-button>
       <button *ngIf="companyId && companyId != 'new' && companyForm.valid" type="submit" class="btn btn-success me-2" [disabled]="!companyForm.valid">Update Company</button>
       <button *ngIf="companyId && companyId === 'new'" type="submit" class="btn btn-success me-2" [disabled]="!companyForm.valid">Add Company</button>
       <button *ngIf="companyId && companyId != 'new'" type="button" class="btn btn-danger me-2" (click)="onDeleteCompany()">Delete Company</button>

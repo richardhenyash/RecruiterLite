@@ -3,6 +3,7 @@ import { Candidate } from "../models/Candidate";
 import { CandidatesFacade } from "./store/candidates.facade";
 import { Subject, takeUntil, tap} from "rxjs";
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-candidates',
@@ -11,7 +12,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
 })
 export class CandidatesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
-  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router, private readonly route: ActivatedRoute) {}
+  constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router) {}
 
   public candidates: Candidate[] = [];
   public loadingCandidates$ = this.candidatesFacade.loadingCandidates$;
@@ -32,8 +33,5 @@ export class CandidatesComponent implements OnInit {
     if (id) {
       this.router.navigate(['/candidates', +id]);
     }
-  }
-  onBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

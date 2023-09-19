@@ -5,13 +5,15 @@ import {Subject, Subscription, takeUntil, tap} from "rxjs";
 import {ConfirmationModalService} from "../../shared/confirmation-modal/confirmation-modal.service";
 import {Company} from "../../models/Company";
 import {CompaniesFacade} from "../store/companies.facade";
+import {Location} from "@angular/common";
 @Component({
   selector: 'app-company-edit',
   templateUrl: './company-edit.component.html',
   styleUrls: ['./company-edit.component.scss']
 })
 export class CompanyEditComponent implements OnInit, OnDestroy {
-  constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router, private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
+  constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router,
+              private readonly route: ActivatedRoute, private confirmationModal: ConfirmationModalService) {}
 
   public submitted = false;
   public companyId: number | string | undefined;
@@ -75,9 +77,6 @@ export class CompanyEditComponent implements OnInit, OnDestroy {
       // Executes if cancel clicked
       .catch(() => {
       })
-  }
-  onBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
