@@ -17,12 +17,10 @@ export class ConfirmationModalComponent{
   constructor(public activeModal: NgbActiveModal) {
   }
   dismissModal(e: boolean): void {
-    console.log(e);
     this.dismiss.emit(e);
     this.activeModal.dismiss(e);
   }
   public confirmModal(e: boolean) {
-    console.log(e);
     this.activeModal.close(e);
   }
 }

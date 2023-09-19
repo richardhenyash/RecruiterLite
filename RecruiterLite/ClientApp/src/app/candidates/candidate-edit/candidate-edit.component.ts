@@ -42,10 +42,9 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe((params: any) => {
       this.candidateId = params['id'];
     });
-    if (this.candidateId === "new") {
-      return;
+    if (this.candidateId && this.candidateId != "new") {
+      this.candidateId && this.candidatesFacade.loadCandidate(+this.candidateId);
     }
-    this.candidateId && this.candidatesFacade.loadCandidate(+this.candidateId);
     this.candidatesFacade.candidate$
       .pipe(
         tap((candidateToEdit) => {

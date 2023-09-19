@@ -16,7 +16,6 @@ export class CompaniesApiService extends BaseApiService {
   }
 
   public loadCompany(id: number): Observable<Company> {
-    console.log("LOAD COMPANY FIRED");
     return this.get(`/api/company/${id}`, null, false);
   }
   public saveCompany(request: Company): Observable<Company> {
