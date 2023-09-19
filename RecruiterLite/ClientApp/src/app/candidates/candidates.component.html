@@ -13,11 +13,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let candidate of candidates" class="table-active" (click)="onEditCandidate(candidate.id)">
-      <th scope="row">{{candidate.firstName + " " + candidate.lastName}}</th>
-      <td>{{ candidate.companyName }}</td>
-      <td>{{ candidate.phoneNumber }}</td>
-      <td><a class="link">{{ candidate.email }}</a></td>
+    <tr *ngFor="let candidate of candidates" class="table-active">
+      <th scope="row" (click)="onEditCandidate(candidate.id)">{{candidate.fullName}}</th>
+      <td (click)="onEditCandidate(candidate.id)">{{ candidate.companyName }}</td>
+      <td (click)="onEditCandidate(candidate.id)">{{ candidate.phoneNumber }}</td>
+      <td><a href="mailto:{{candidate.email}}" class="link">{{ candidate.email }}</a></td>
       <td>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" [checked]="candidate.isHiringManager" disabled>
