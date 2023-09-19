@@ -7,5 +7,5 @@ public class CompaniesSpecification : BaseSpecification<Company>
     public CompaniesSpecification() {}
 
     public CompaniesSpecification(int id)
-        : base() {}
+        : base(c => c.Id == id) {}
 }
