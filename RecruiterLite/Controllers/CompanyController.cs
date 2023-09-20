@@ -48,7 +48,7 @@ public class CompanyController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CompanyResponse>> GetCompany(int id)
     {
-        var company = await _unitOfWork.Repository<Company>().GetByIdAsync(id, true);
+        var company = await _unitOfWork.Repository<Company>().GetByIdAsync(id);
         if (company == null)
         {
             return NotFound($"Company with id of {id} not found.");
@@ -70,7 +70,7 @@ public class CompanyController : ControllerBase
         var result = 0;
         if (companyRequest.Id != null && companyRequest.Id > 0)
         {
-            var updatedCompany = await _unitOfWork.Repository<Company>().GetByIdAsync(companyRequest.Id.GetValueOrDefault(), false);
+            var updatedCompany = await _unitOfWork.Repository<Company>().GetByIdAsync(companyRequest.Id.GetValueOrDefault());
             if (updatedCompany == null)
                 return NotFound($"Company with id of {companyRequest.Id} not found.");
             updatedCompany = _mapper.Map(companyRequest, updatedCompany);
@@ -88,7 +88,7 @@ public class CompanyController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCompany(int id)
     {
-        var companyFromDb = await _unitOfWork.Repository<Company>().GetByIdAsync(id, false);
+        var companyFromDb = await _unitOfWork.Repository<Company>().GetByIdAsync(id);
         if (companyFromDb != null)
         {
             _unitOfWork.Repository<Company>().Delete(companyFromDb);

@@ -67,7 +67,7 @@ public class CandidateController : ControllerBase
         var result = 0;
         if (candidateRequest.Id != null && candidateRequest.Id > 0)
         {
-            var updatedCandidate = await _unitOfWork.Repository<Candidate>().GetByIdAsync(candidateRequest.Id.GetValueOrDefault(), false);
+            var updatedCandidate = await _unitOfWork.Repository<Candidate>().GetByIdAsync(candidateRequest.Id.GetValueOrDefault());
             if (updatedCandidate == null)
                 return NotFound($"Candidate with id of {candidateRequest.Id} not found.");
             updatedCandidate = _mapper.Map(candidateRequest, updatedCandidate);
@@ -85,7 +85,7 @@ public class CandidateController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCandidate(int id)
     {
-        var candidateFromDb = await _unitOfWork.Repository<Candidate>().GetByIdAsync(id, false);
+        var candidateFromDb = await _unitOfWork.Repository<Candidate>().GetByIdAsync(id);
         if (candidateFromDb != null)
         {
             _unitOfWork.Repository<Candidate>().Delete(candidateFromDb);

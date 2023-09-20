@@ -18,7 +18,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _dbSet = _context.Set<T>();
     }
 
-    public async Task<T> GetByIdAsync(int id, bool? asNoTracking = false)
+    public async Task<T> GetByIdAsync(int id)
     {
         return await _dbSet.FindAsync(id);
     }
@@ -54,7 +54,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     
     public bool EntityExists(int id)
     {
-        return _dbSet.Any(e => e.Id == id);
+        return _dbSet.AsNoTracking().Any(e => e.Id == id);
     }
     public async Task<T> GetEntityWithSpecification(ISpecification<T> specification, bool? asNoTracking = false)
     {
@@ -67,7 +67,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     
     public async Task<int> CountAsync(ISpecification<T> specification)
     {
-        return await ApplySpecification(specification).CountAsync();
+        return await ApplySpecification(specification).AsNoTracking().CountAsync();
     }
     public async Task<IReadOnlyList<T>> GetEntitiesWithSpecification(ISpecification<T> specification, bool? asNoTracking = false)
     {

@@ -5,7 +5,7 @@ namespace RecruiterLite.DataAccess.Interfaces;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
-    public Task<T> GetByIdAsync(int id, bool? asNoTracking = false);
+    public Task<T> GetByIdAsync(int id);
     public Task<IReadOnlyList<T>> GetAllAsync(bool? asNoTracking = false);
 
     public Task<T> GetEntityWithSpecification(ISpecification<T> specification, bool? asNoTracking = false);
