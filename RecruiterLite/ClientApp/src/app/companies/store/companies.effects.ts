@@ -13,6 +13,7 @@ import {
 import {map, of, switchMap} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {HttpErrorResponse} from "@angular/common/http";
+import {CandidatesActionTypes} from "../../candidates/store/candidates.actions";
 
 @Injectable()
 export class CompaniesEffects {
@@ -65,6 +66,8 @@ export class CompaniesEffects {
       ofType(
         CompaniesActionTypes.SAVE_COMPANY_SUCCESS,
         CompaniesActionTypes.DELETE_COMPANY_SUCCESS,
+        CandidatesActionTypes.SAVE_CANDIDATE_SUCCESS,
+        CandidatesActionTypes.DELETE_CANDIDATE_SUCCESS,
       ),
       map((response) => loadCompanies())
     );

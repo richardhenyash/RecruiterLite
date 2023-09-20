@@ -26,7 +26,7 @@ public class CandidateController : ControllerBase
     public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates()
     {
         var candidateSpecification = new CandidatesWithCompaniesSpecification();
-        var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification);
+        var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification, true);
         if (candidateList == null)
         {
             return NotFound("No candidates currently exist in the database.");
@@ -39,7 +39,7 @@ public class CandidateController : ControllerBase
     public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidatesByCompany(int id)
     {
         var candidateSpecification = new CandidatesWithCompaniesByCompanyIdSpecification(id);
-        var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification);
+        var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification, true);
         if (candidateList == null)
         {
             return NotFound("No candidates currently exist in the database.");
@@ -52,7 +52,7 @@ public class CandidateController : ControllerBase
     public async Task<ActionResult<CandidateResponse>> GetCandidate(int id)
     {
         var candidateSpecification = new CandidatesWithCompaniesSpecification(id);
-        var candidate = await _unitOfWork.Repository<Candidate>().GetEntityWithSpecification(candidateSpecification);
+        var candidate = await _unitOfWork.Repository<Candidate>().GetEntityWithSpecification(candidateSpecification, true);
         if (candidate == null)
         {
             return NotFound($"Candidate with id of {id} not found.");
@@ -67,7 +67,7 @@ public class CandidateController : ControllerBase
         var result = 0;
         if (candidateRequest.Id != null && candidateRequest.Id > 0)
         {
-            var updatedCandidate = await _unitOfWork.Repository<Candidate>().GetByIdAsync(candidateRequest.Id.GetValueOrDefault());
+            var updatedCandidate = await _unitOfWork.Repository<Candidate>().GetByIdAsync(candidateRequest.Id.GetValueOrDefault(), false);
             if (updatedCandidate == null)
                 return NotFound($"Candidate with id of {candidateRequest.Id} not found.");
             updatedCandidate = _mapper.Map(candidateRequest, updatedCandidate);
@@ -85,7 +85,7 @@ public class CandidateController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCandidate(int id)
     {
-        var candidateFromDb = await _unitOfWork.Repository<Candidate>().GetByIdAsync(id);
+        var candidateFromDb = await _unitOfWork.Repository<Candidate>().GetByIdAsync(id, false);
         if (candidateFromDb != null)
         {
             _unitOfWork.Repository<Candidate>().Delete(candidateFromDb);

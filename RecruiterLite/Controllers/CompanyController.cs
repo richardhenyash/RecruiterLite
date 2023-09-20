@@ -25,7 +25,7 @@ public class CompanyController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies()
     {
-        var companyList = await _unitOfWork.Repository<Company>().GetAllAsync();
+        var companyList = await _unitOfWork.Repository<Company>().GetAllAsync(true);
         if (companyList == null)
         {
             return NotFound("No companies currently exist in the database.");
@@ -34,7 +34,7 @@ public class CompanyController : ControllerBase
         foreach (var company in companyResponse)
         {
             var hiringManagerSpecification = new HiringManagersByCompanyIdSpecification(company.Id);
-            var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification);
+            var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification, true);
             if (hiringManagers != null)
             {
                 company.HiringManagers = _mapper.Map<List<CandidateResponse>>(hiringManagers);
@@ -48,14 +48,14 @@ public class CompanyController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CompanyResponse>> GetCompany(int id)
     {
-        var company = await _unitOfWork.Repository<Company>().GetByIdAsync(id);
+        var company = await _unitOfWork.Repository<Company>().GetByIdAsync(id, true);
         if (company == null)
         {
             return NotFound($"Company with id of {id} not found.");
         }
         var companyResponse = _mapper.Map<CompanyResponse>(company);
         var hiringManagerSpecification = new HiringManagersByCompanyIdSpecification(id);
-        var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification);
+        var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification, true);
         if (hiringManagers != null)
         {
             companyResponse.HiringManagers = _mapper.Map<List<CandidateResponse>>(hiringManagers);
@@ -70,7 +70,7 @@ public class CompanyController : ControllerBase
         var result = 0;
         if (companyRequest.Id != null && companyRequest.Id > 0)
         {
-            var updatedCompany = await _unitOfWork.Repository<Company>().GetByIdAsync(companyRequest.Id.GetValueOrDefault());
+            var updatedCompany = await _unitOfWork.Repository<Company>().GetByIdAsync(companyRequest.Id.GetValueOrDefault(), false);
             if (updatedCompany == null)
                 return NotFound($"Company with id of {companyRequest.Id} not found.");
             updatedCompany = _mapper.Map(companyRequest, updatedCompany);
@@ -88,14 +88,14 @@ public class CompanyController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCompany(int id)
     {
-        var companyFromDb = await _unitOfWork.Repository<Company>().GetByIdAsync(id);
+        var companyFromDb = await _unitOfWork.Repository<Company>().GetByIdAsync(id, false);
         if (companyFromDb != null)
         {
             _unitOfWork.Repository<Company>().Delete(companyFromDb);
             var result = await _unitOfWork.Complete();
             if (result > 0)
             { 
-                return Ok();   
+                return Ok();
             }
             return Problem($"Company with id of {id} has not been successfully deleted.");
         }

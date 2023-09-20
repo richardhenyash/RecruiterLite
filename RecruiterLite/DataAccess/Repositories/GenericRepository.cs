@@ -18,14 +18,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _dbSet = _context.Set<T>();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T> GetByIdAsync(int id, bool? asNoTracking = false)
     {
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<IReadOnlyList<T>> GetAllAsync()
+    public async Task<IReadOnlyList<T>> GetAllAsync(bool? asNoTracking = false)
     {
-        return await _dbSet.ToListAsync();
+        if (asNoTracking == true)
+        {
+            return await _dbSet.AsNoTracking().ToListAsync();
+        }
+        return await _dbSet.ToListAsync(); 
     }
     
     public void Add(T entity)
@@ -52,8 +56,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         return _dbSet.Any(e => e.Id == id);
     }
-    public async Task<T> GetEntityWithSpecification(ISpecification<T> specification)
+    public async Task<T> GetEntityWithSpecification(ISpecification<T> specification, bool? asNoTracking = false)
     {
+        if (asNoTracking == true)
+        {
+            return await ApplySpecification(specification).AsNoTracking().FirstOrDefaultAsync(); 
+        }
         return await ApplySpecification(specification).FirstOrDefaultAsync();
     }
     
@@ -61,8 +69,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         return await ApplySpecification(specification).CountAsync();
     }
-    public async Task<IReadOnlyList<T>> GetEntitiesWithSpecification(ISpecification<T> specification)
+    public async Task<IReadOnlyList<T>> GetEntitiesWithSpecification(ISpecification<T> specification, bool? asNoTracking = false)
     {
+        if (asNoTracking == true)
+        {
+            return await ApplySpecification(specification).AsNoTracking().ToListAsync();
+        }
         return await ApplySpecification(specification).ToListAsync();
     }
     private IQueryable<T> ApplySpecification(ISpecification<T> specification)
