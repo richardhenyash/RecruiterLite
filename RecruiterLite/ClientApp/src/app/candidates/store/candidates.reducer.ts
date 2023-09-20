@@ -6,7 +6,7 @@ import {
   loadCandidatesError,
   loadCandidatesSuccess, loadCandidateSuccess,
   saveCandidate, saveCandidateError,
-  saveCandidateSuccess, toggleIsHiringManager, toggleIsHiringManagerError, toggleIsHiringManagerSuccess
+  saveCandidateSuccess
 } from "./candidates.actions";
 import {ApiState} from "../../models/ApiState";
 export const candidateFeatureKey = 'candidate';
@@ -38,10 +38,6 @@ export const candidateReducer = createReducer(
   on(saveCandidate, (state): CandidatesState => ({ ...state, saveCandidateStatus: ApiState.LOADING })),
   on(saveCandidateSuccess,(state): CandidatesState => ({...state, saveCandidateStatus: ApiState.SUCCESS})),
   on(saveCandidateError, (state, { error }): CandidatesState => ({ ...state, error, saveCandidateStatus: ApiState.FAIL })),
-
-  on(toggleIsHiringManager, (state): CandidatesState => ({ ...state, toggleIsHiringManagerStatus: ApiState.LOADING })),
-  on(toggleIsHiringManagerSuccess,(state): CandidatesState => ({...state, toggleIsHiringManagerStatus: ApiState.SUCCESS})),
-  on(toggleIsHiringManagerError, (state, { error }): CandidatesState => ({ ...state, error, toggleIsHiringManagerStatus: ApiState.FAIL })),
 
   on(deleteCandidate, (state): CandidatesState => ({ ...state, deleteCandidateStatus: ApiState.LOADING })),
   on(

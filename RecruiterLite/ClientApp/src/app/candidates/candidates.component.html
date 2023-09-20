@@ -14,15 +14,17 @@
     </thead>
     <tbody>
     <tr *ngFor="let candidate of candidates" class="table-active">
-      <th scope="row" (click)="onEditCandidate(candidate.id)">{{candidate.fullName}}</th>
-      <td (click)="onEditCandidate(candidate.id)">{{ candidate.companyName }}</td>
-      <td (click)="onEditCandidate(candidate.id)">{{ candidate.phoneNumber }}</td>
-      <td><a href="mailto:{{candidate.email}}" class="link">{{ candidate.email }}</a></td>
-      <td>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" [checked]="candidate.isHiringManager" (click)="onToggleIsHiringManager(candidate.id)">
-        </div>
-      </td>
+        <th scope="row" (click)="onEditCandidate(candidate.id)">{{candidate.fullName}}</th>
+        <td (click)="onEditCandidate(candidate.id)">{{ candidate.companyName }}</td>
+        <td (click)="onEditCandidate(candidate.id)">{{ candidate.phoneNumber }}</td>
+        <td><a href="mailto:{{candidate.email}}" class="link">{{ candidate.email }}</a></td>
+        <td>
+          <div class="form-check">
+            <form id="candidateForm{{candidate.id}}" [formGroup]="getCandidateForm(candidate.id)">
+              <input id="isHiringInput{{candidate.id}}" class="form-check-input" type="checkbox" (click)="onToggleIsHiringManager(candidate.id, $event)" formControlName="isHiringManager">
+            </form>
+          </div>
+        </td>
     </tr>
     </tbody>
   </table>

@@ -81,26 +81,6 @@ public class CandidateController : ControllerBase
         return CreatedAtAction("GetCandidate", new { id = newCandidate.Id }, newCandidate);
     }
     
-    // PUT: api/Candidate/ToggleIsHiringManager/id
-    [HttpPut("ToggleIsHiringManager/{id}")]
-    public async Task<ActionResult<CandidateResponse>> ToggleIsHiringManager(int id)
-    {
-        var candidateSpecification = new CandidatesWithCompaniesSpecification(id);
-        var updatedCandidate = await _unitOfWork.Repository<Candidate>().GetEntityWithSpecification(candidateSpecification);
-        if (updatedCandidate != null)
-        {
-            updatedCandidate.IsHiringManager = !updatedCandidate.IsHiringManager;
-            _unitOfWork.Repository<Candidate>().Update(updatedCandidate);
-            var result = await _unitOfWork.Complete();
-            if (result > 0)
-            { 
-                return Ok(_mapper.Map<CandidateResponse>(updatedCandidate));   
-            }
-            return Problem($"Candidate with id of {id} has not been successfully updated.");
-        }
-        return NotFound($"Candidate with id of {id} not found.");
-    }
-
     // DELETE: api/Candidate/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCandidate(int id)

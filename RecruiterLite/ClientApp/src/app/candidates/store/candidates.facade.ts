@@ -3,8 +3,7 @@ import {
   deleteCandidate,
   loadCandidates,
   loadCandidate,
-  saveCandidate,
-  toggleIsHiringManager
+  saveCandidate
 } from "./candidates.actions";
 import {Store} from "@ngrx/store";
 import {selectCandidate, selectCandidates, selectLoadingCandidates} from "./candidates.selectors";
@@ -27,9 +26,6 @@ export class CandidatesFacade {
   }
   saveCandidate(request: Candidate): void {
     this.store.dispatch(saveCandidate({ request }));
-  }
-  toggleIsHiringManager(id: number): void {
-    this.store.dispatch(toggleIsHiringManager({ id }));
   }
   deleteCandidate(id: number): void {
     this.store.dispatch(deleteCandidate({ id }));
