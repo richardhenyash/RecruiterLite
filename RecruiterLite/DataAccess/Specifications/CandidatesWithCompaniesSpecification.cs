@@ -4,7 +4,8 @@ namespace RecruiterLite.DataAccess.Specifications;
 
 public class CandidatesWithCompaniesSpecification : BaseSpecification<Candidate>
 {
-    public CandidatesWithCompaniesSpecification(string? sort)
+    public CandidatesWithCompaniesSpecification(string? sort, int? companyId) :
+        base(c => !companyId.HasValue || c.CompanyId == companyId)
     {
         AddInclude(c => c.Company);
         if (string.IsNullOrEmpty(sort))
