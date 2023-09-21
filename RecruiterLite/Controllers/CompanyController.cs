@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecruiterLite.DataAccess.Interfaces;
 using RecruiterLite.DataAccess.Specifications;
 using RecruiterLite.Models;
+using RecruiterLite.Models.Pagination;
 using RecruiterLite.Models.Request;
 using RecruiterLite.Models.Response;
 
@@ -26,13 +27,15 @@ public class CompanyController : ControllerBase
     public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies([FromQuery]CompanySpecParams? companyParams)
     {
         var companySpecification = new CompaniesSpecification(companyParams);
+        var    companyCountSpecification = new CompaniesWithFiltersForCountSpecification(companyParams);
+        var totalItems = await _unitOfWork.Repository<Company>().CountAsync(companyCountSpecification);
         var companyList = await _unitOfWork.Repository<Company>().GetEntitiesWithSpecification(companySpecification, true);
         if (companyList == null)
         {
             return NotFound("No companies currently exist in the database.");
         }
-        var companyResponse = _mapper.Map<List<CompanyResponse>>(companyList);
-        foreach (var company in companyResponse)
+        var companyData = _mapper.Map<List<CompanyResponse>>(companyList);
+        foreach (var company in companyData)
         {
             var hiringManagerSpecification = new HiringManagersByCompanyIdSpecification(company.Id);
             var hiringManagers = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(hiringManagerSpecification, true);
@@ -41,8 +44,8 @@ public class CompanyController : ControllerBase
                 company.HiringManagers = _mapper.Map<List<CandidateResponse>>(hiringManagers);
             }
         }
-
-        return companyResponse;
+        return Ok(new Pagination<CompanyResponse>(companyParams.PageIndex, companyParams.PageSize, totalItems,
+            companyData));
     }
     
     // GET: api/Company/1
