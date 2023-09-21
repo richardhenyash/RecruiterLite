@@ -23,9 +23,10 @@ public class CompanyController : ControllerBase
 
     // GET: api/Companies
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies()
+    public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies(string? sort)
     {
-        var companyList = await _unitOfWork.Repository<Company>().GetAllAsync(true);
+        var companySpecification = new CompaniesSpecification(sort);
+        var companyList = await _unitOfWork.Repository<Company>().GetEntitiesWithSpecification(companySpecification, true);
         if (companyList == null)
         {
             return NotFound("No companies currently exist in the database.");
@@ -48,7 +49,8 @@ public class CompanyController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CompanyResponse>> GetCompany(int id)
     {
-        var company = await _unitOfWork.Repository<Company>().GetByIdAsync(id);
+        var companySpecification = new CompaniesSpecification(id);
+        var company = await _unitOfWork.Repository<Company>().GetEntityWithSpecification(companySpecification, true);
         if (company == null)
         {
             return NotFound($"Company with id of {id} not found.");

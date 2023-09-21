@@ -4,9 +4,34 @@ namespace RecruiterLite.DataAccess.Specifications;
 
 public class CandidatesWithCompaniesSpecification : BaseSpecification<Candidate>
 {
-    public CandidatesWithCompaniesSpecification()
+    public CandidatesWithCompaniesSpecification(string? sort)
     {
         AddInclude(c => c.Company);
+        if (string.IsNullOrEmpty(sort))
+        { 
+            AddOrderBy(c => c.FirstName + c.LastName); 
+        }
+        else 
+        {
+            switch (sort)
+            {
+                case "nameAsc":
+                    AddOrderBy(c => c.FirstName + c.LastName);
+                    break;
+                case "nameDsc":
+                    AddOrderByDescending(c => c.FirstName + c.LastName);
+                    break;
+                case "companyNameAsc":
+                    AddOrderBy(c => c.Company.CompanyName);
+                    break;
+                case "companyNameDsc":
+                    AddOrderByDescending(c => c.Company.CompanyName);
+                    break;
+                default:
+                    AddOrderBy(c => c.FirstName + c.LastName);
+                    break;
+            }
+        }
     }
     
     public CandidatesWithCompaniesSpecification(int id)

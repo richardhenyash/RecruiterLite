@@ -23,9 +23,9 @@ public class CandidateController : ControllerBase
 
     // GET: api/Candidates
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates()
+    public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates(string? sort)
     {
-        var candidateSpecification = new CandidatesWithCompaniesSpecification();
+        var candidateSpecification = new CandidatesWithCompaniesSpecification(sort);
         var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification, true);
         if (candidateList == null)
         {
