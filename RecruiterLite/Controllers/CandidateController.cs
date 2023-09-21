@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecruiterLite.DataAccess.Interfaces;
 using RecruiterLite.DataAccess.Specifications;
 using RecruiterLite.Models;
+using RecruiterLite.Models.Pagination;
 using RecruiterLite.Models.Request;
 using RecruiterLite.Models.Response;
 
@@ -23,15 +24,19 @@ public class CandidateController : ControllerBase
 
     // GET: api/Candidates
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates(string? sort, int? companyId)
+    public async Task<ActionResult<Pagination<CandidateResponse>>> GetCandidates([FromQuery]CandidateSpecParams? candidateParams)
     {
-        var candidateSpecification = new CandidatesWithCompaniesSpecification(sort, companyId);
+        var candidateSpecification = new CandidatesWithCompaniesSpecification(candidateParams);
+        var candidateCountSpecification = new CandidatesWithFiltersForCountSpecification(candidateParams);
+        var totalItems = await _unitOfWork.Repository<Candidate>().CountAsync(candidateCountSpecification);
         var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification, true);
         if (candidateList == null)
         {
             return NotFound("No candidates currently exist in the database.");
         }
-        return _mapper.Map<List<CandidateResponse>>(candidateList); ;
+        var candidateData = _mapper.Map<List<CandidateResponse>>(candidateList);
+        return Ok(new Pagination<CandidateResponse>(candidateParams.PageIndex, candidateParams.PageSize, totalItems,
+            candidateData));
     }
     
     // GET: api/Candidate/1

@@ -23,9 +23,9 @@ public class CompanyController : ControllerBase
 
     // GET: api/Companies
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies(string? sort)
+    public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies([FromQuery]CompanySpecParams? companyParams)
     {
-        var companySpecification = new CompaniesSpecification(sort);
+        var companySpecification = new CompaniesSpecification(companyParams);
         var companyList = await _unitOfWork.Repository<Company>().GetEntitiesWithSpecification(companySpecification, true);
         if (companyList == null)
         {
