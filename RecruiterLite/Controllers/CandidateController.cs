@@ -23,22 +23,9 @@ public class CandidateController : ControllerBase
 
     // GET: api/Candidates
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates()
+    public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidates(string? sort, int? companyId)
     {
-        var candidateSpecification = new CandidatesWithCompaniesSpecification();
-        var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification, true);
-        if (candidateList == null)
-        {
-            return NotFound("No candidates currently exist in the database.");
-        }
-        return _mapper.Map<List<CandidateResponse>>(candidateList); ;
-    }
-    
-    // GET: api/Candidate/ByCompany/id
-    [HttpGet("ByCompany/{id}")]
-    public async Task<ActionResult<IEnumerable<CandidateResponse>>> GetCandidatesByCompany(int id)
-    {
-        var candidateSpecification = new CandidatesWithCompaniesByCompanyIdSpecification(id);
+        var candidateSpecification = new CandidatesWithCompaniesSpecification(sort, companyId);
         var candidateList = await _unitOfWork.Repository<Candidate>().GetEntitiesWithSpecification(candidateSpecification, true);
         if (candidateList == null)
         {
