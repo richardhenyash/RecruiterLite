@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import { Candidate } from "../models/Candidate";
+import {Candidate, PaginatedCandidates} from "../models/Candidate";
 import { CandidatesFacade } from "./store/candidates.facade";
 import { Subject, takeUntil, tap} from "rxjs";
 import { Router } from "@angular/router";
@@ -27,10 +27,10 @@ export class CandidatesComponent implements OnInit {
     this.candidatesFacade.loadCandidates();
     this.candidatesFacade.candidates$
       .pipe(
-        tap((candidates: Candidate[] | null) => {
-          if (candidates) {
-            this.candidates = candidates;
-            this.candidateForms = candidates.map((c =>
+        tap((paginatedCandidates: PaginatedCandidates | null) => {
+          if (paginatedCandidates && paginatedCandidates.data) {
+            this.candidates = paginatedCandidates.data;
+            this.candidateForms = paginatedCandidates.data.map((c =>
               this.fb.group({
                   id: [c.id],
                   isHiringManager: c.isHiringManager

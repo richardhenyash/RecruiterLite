@@ -1,8 +1,11 @@
 import {ApiState} from "../../models/ApiState";
-import {Company} from "../../models/Company";
+import {Company, PaginatedCompanies} from "../../models/Company";
 export interface CompaniesState {
-  companies: Array<Company> | null;
+  companies: PaginatedCompanies | null;
   companiesStatus: ApiState;
+
+  allCompanies: Array<Company> | null;
+  allCompaniesStatus: ApiState;
 
   company: Company | null;
   companyStatus: ApiState;
@@ -19,6 +22,9 @@ export interface CompaniesState {
 export const initialState: CompaniesState = {
   companies: null,
   companiesStatus: ApiState.INITIAL,
+
+  allCompanies: null,
+  allCompaniesStatus: ApiState.INITIAL,
 
   company: null,
   companyStatus: ApiState.INITIAL,

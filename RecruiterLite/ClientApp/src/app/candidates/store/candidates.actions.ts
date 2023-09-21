@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {Candidate} from "../../models/Candidate";
+import {Candidate, PaginatedCandidates} from "../../models/Candidate";
 export enum CandidatesActionTypes {
   LOAD_CANDIDATES = '[Candidates] Load Candidates',
   LOAD_CANDIDATES_SUCCESS = '[Candidates] Load Candidates success',
@@ -20,7 +20,7 @@ export enum CandidatesActionTypes {
 export const loadCandidates = createAction(CandidatesActionTypes.LOAD_CANDIDATES);
 export const loadCandidatesSuccess = createAction(
   CandidatesActionTypes.LOAD_CANDIDATES_SUCCESS,
-  props<{ response: Array<Candidate> }>()
+  props<{ response: PaginatedCandidates }>()
 );
 export const loadCandidatesError = createAction(
   CandidatesActionTypes.LOAD_CANDIDATES_ERROR,

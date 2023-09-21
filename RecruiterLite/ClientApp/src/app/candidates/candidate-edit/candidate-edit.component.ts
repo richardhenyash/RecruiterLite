@@ -41,7 +41,7 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.companiesFacade.loadCompanies();
+    this.companiesFacade.loadAllCompanies();
     this.routeSub = this.route.params.subscribe((params: any) => {
       this.candidateId = params['id'];
     });
@@ -71,11 +71,11 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.companiesFacade.companies$
+    this.companiesFacade.allCompanies$
       .pipe(
-        tap((companies) => {
-          if (companies) {
-            this.companySelectOptions = companies.map((c => {
+        tap((allCompanies) => {
+          if (allCompanies) {
+            this.companySelectOptions = allCompanies.map((c => {
               return {
                 name: c.companyName,
                 value: c.id,
@@ -96,7 +96,6 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     }
     this.candidateForm.valid && updatedCandidate && (this.candidatesFacade.saveCandidate(updatedCandidate));
     this.location.back();
-    // this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDeleteCandidate() {
     this.confirmationModal.confirm("Delete Candidate", "Are you sure you want to delete the candidate?", "Delete", "Cancel")

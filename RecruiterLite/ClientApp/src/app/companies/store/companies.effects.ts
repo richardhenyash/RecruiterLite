@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {CompaniesApiService} from "./companies-api.service";
 import {
   CompaniesActionTypes, deleteCompanyError,
-  deleteCompanySuccess,
+  deleteCompanySuccess, loadAllCompanies, loadAllCompaniesSuccess,
   loadCompanies,
   loadCompaniesSuccess,
   loadCompanySuccess,
@@ -22,6 +22,15 @@ export class CompaniesEffects {
       ofType(CompaniesActionTypes.LOAD_COMPANIES),
       switchMap(() =>
         this.companiesApiService.loadCompanies().pipe(map((response) => loadCompaniesSuccess({response})))
+      )
+    );
+  });
+
+  loadAllCompanies$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CompaniesActionTypes.LOAD_ALL_COMPANIES),
+      switchMap(() =>
+        this.companiesApiService.loadAllCompanies().pipe(map((response) => loadAllCompaniesSuccess({response})))
       )
     );
   });
@@ -70,6 +79,18 @@ export class CompaniesEffects {
         CandidatesActionTypes.DELETE_CANDIDATE_SUCCESS,
       ),
       map((response) => loadCompanies())
+    );
+  });
+
+  reloadAllCompanies$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        CompaniesActionTypes.SAVE_COMPANY_SUCCESS,
+        CompaniesActionTypes.DELETE_COMPANY_SUCCESS,
+        CandidatesActionTypes.SAVE_CANDIDATE_SUCCESS,
+        CandidatesActionTypes.DELETE_CANDIDATE_SUCCESS,
+      ),
+      map((response) => loadAllCompanies())
     );
   });
   constructor(private actions$: Actions, private companiesApiService: CompaniesApiService) {

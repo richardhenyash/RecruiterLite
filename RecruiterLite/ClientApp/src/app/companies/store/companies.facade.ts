@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {
-  loadCompanies, loadCompany, saveCompany, deleteCompany
+  loadCompanies, loadAllCompanies, loadCompany, saveCompany, deleteCompany
 } from "./companies.actions";
 import {Store} from "@ngrx/store";
 import {
+  selectAllCompanies,
   selectCompanies,
   selectCompany,
   selectLoadingCompanies
@@ -17,10 +18,14 @@ export class CompaniesFacade {
   constructor(private store: Store) {}
 
   companies$ = this.store.select(selectCompanies);
+  allCompanies$ = this.store.select(selectAllCompanies);
   company$ = this.store.select(selectCompany);
   loadingCompanies$ = this.store.select(selectLoadingCompanies);
   loadCompanies(): void {
     this.store.dispatch(loadCompanies());
+  }
+  loadAllCompanies(): void {
+    this.store.dispatch(loadAllCompanies());
   }
   loadCompany(id: number): void {
     this.store.dispatch(loadCompany({ id }));

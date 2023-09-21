@@ -22,7 +22,7 @@ public class CompanyController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
-    // GET: api/Companies
+    // GET: api/Company
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies([FromQuery]CompanySpecParams? companyParams)
     {
@@ -46,6 +46,19 @@ public class CompanyController : ControllerBase
         }
         return Ok(new Pagination<CompanyResponse>(companyParams.PageIndex, companyParams.PageSize, totalItems,
             companyData));
+    }
+    
+    // GET: api/Company/All
+    [HttpGet("all")]
+    public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetAllCompanies()
+    {
+        var companyList = await _unitOfWork.Repository<Company>().GetAllAsync(true);
+        if (companyList == null)
+        {
+            return NotFound("No companies currently exist in the database.");
+        }
+        var companyResponse = _mapper.Map<List<CompanyResponse>>(companyList);
+        return Ok(companyResponse);
     }
     
     // GET: api/Company/1

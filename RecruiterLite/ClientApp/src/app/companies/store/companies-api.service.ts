@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {BaseApiService} from "../../api/base-api-service";
-import {Company} from "../../models/Company";
+import {Company, PaginatedCompanies} from "../../models/Company";
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +11,12 @@ export class CompaniesApiService extends BaseApiService {
     super();
   }
 
-  public loadCompanies(): Observable<Array<Company>> {
+  public loadCompanies(): Observable<PaginatedCompanies> {
     return this.get(`/api/company`, null, false);
   }
-
+  public loadAllCompanies(): Observable<Array<Company>> {
+    return this.get(`/api/company/all`, null, false);
+  }
   public loadCompany(id: number): Observable<Company> {
     return this.get(`/api/company/${id}`, null, false);
   }

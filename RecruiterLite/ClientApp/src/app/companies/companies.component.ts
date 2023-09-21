@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil, tap} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Company} from "../models/Company";
-import {CompaniesFacade} from "./store/companies.facade";
-import {Location} from '@angular/common';
+import { Router } from "@angular/router";
+import { Company, PaginatedCompanies } from "../models/Company";
+import { CompaniesFacade } from "./store/companies.facade";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-companies',
@@ -21,9 +21,9 @@ export class CompaniesComponent implements OnInit {
     this.companiesFacade.loadCompanies();
     this.companiesFacade.companies$
       .pipe(
-        tap((companies: Company[] | null) => {
-          if (companies) {
-            this.companies = companies;
+        tap((paginatedCompanies: PaginatedCompanies | null) => {
+          if (paginatedCompanies && paginatedCompanies.data) {
+            this.companies = paginatedCompanies.data;
           }
         }),
         takeUntil(this.unsubscribe$)

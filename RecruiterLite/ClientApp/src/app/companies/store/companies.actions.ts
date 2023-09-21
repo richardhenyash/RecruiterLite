@@ -1,9 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import {Company} from "../../models/Company";
+import {Company, PaginatedCompanies} from "../../models/Company";
 export enum CompaniesActionTypes {
   LOAD_COMPANIES = '[Companies] Load Companies',
   LOAD_COMPANIES_SUCCESS = '[Companies] Load Companies success',
   LOAD_COMPANIES_ERROR = '[Companies] Load Companies error',
+
+  LOAD_ALL_COMPANIES = '[Companies] Load All Companies',
+  LOAD_ALL_COMPANIES_SUCCESS = '[Companies] Load All Companies success',
+  LOAD_ALL_COMPANIES_ERROR = '[Companies] Load All Companies error',
 
   LOAD_COMPANY = '[Companies] Load Company',
   LOAD_COMPANY_SUCCESS = '[Companies] Load Company success',
@@ -20,13 +24,22 @@ export enum CompaniesActionTypes {
 export const loadCompanies = createAction(CompaniesActionTypes.LOAD_COMPANIES);
 export const loadCompaniesSuccess = createAction(
   CompaniesActionTypes.LOAD_COMPANIES_SUCCESS,
-  props<{ response: Array<Company> }>()
+  props<{ response: PaginatedCompanies }>()
 );
 export const loadCompaniesError = createAction(
   CompaniesActionTypes.LOAD_COMPANIES_ERROR,
   props<{ error: string }>()
 );
 
+export const loadAllCompanies = createAction(CompaniesActionTypes.LOAD_ALL_COMPANIES);
+export const loadAllCompaniesSuccess = createAction(
+  CompaniesActionTypes.LOAD_ALL_COMPANIES_SUCCESS,
+  props<{ response: Array<Company> }>()
+);
+export const loadAllCompaniesError = createAction(
+  CompaniesActionTypes.LOAD_ALL_COMPANIES_ERROR,
+  props<{ error: string }>()
+);
 export const loadCompany = createAction(CompaniesActionTypes.LOAD_COMPANY, props<{ id: number }>());
 export const loadCompanySuccess = createAction(
   CompaniesActionTypes.LOAD_COMPANY_SUCCESS,

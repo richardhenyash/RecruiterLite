@@ -1,6 +1,3 @@
-/*
- * @Copyright The Gap Partnership. All rights reserved.
- */
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { NEVER, Observable, throwError } from 'rxjs';

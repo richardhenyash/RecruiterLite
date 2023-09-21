@@ -1,8 +1,21 @@
 import {createReducer, on} from "@ngrx/store";
 import {CompaniesState, initialState} from "./companies.state";
-import { deleteCompany, deleteCompanyError, deleteCompanySuccess,
-  loadCompanies, loadCompaniesError, loadCompaniesSuccess, loadCompany, loadCompanyError,
-  loadCompanySuccess, saveCompany, saveCompanyError, saveCompanySuccess
+import {
+  deleteCompany,
+  deleteCompanyError,
+  deleteCompanySuccess,
+  loadAllCompanies,
+  loadAllCompaniesError,
+  loadAllCompaniesSuccess,
+  loadCompanies,
+  loadCompaniesError,
+  loadCompaniesSuccess,
+  loadCompany,
+  loadCompanyError,
+  loadCompanySuccess,
+  saveCompany,
+  saveCompanyError,
+  saveCompanySuccess
 } from "./companies.actions";
 import {ApiState} from "../../models/ApiState";
 export const companiesFeatureKey = 'companies';
@@ -19,6 +32,17 @@ export const companiesReducer = createReducer(
     })
   ),
   on(loadCompaniesError, (state, { error }): CompaniesState => ({ ...state, error, companiesStatus: ApiState.FAIL })),
+
+  on(loadAllCompanies, (state): CompaniesState => ({ ...state, allCompaniesStatus: ApiState.LOADING })),
+  on(
+    loadAllCompaniesSuccess,
+    (state, { response }): CompaniesState => ({
+      ...state,
+      allCompanies: response,
+      allCompaniesStatus: ApiState.SUCCESS,
+    })
+  ),
+  on(loadAllCompaniesError, (state, { error }): CompaniesState => ({ ...state, error, allCompaniesStatus: ApiState.FAIL })),
 
   on(loadCompany, (state): CompaniesState => ({ ...state, companyStatus: ApiState.LOADING })),
   on(
