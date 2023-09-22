@@ -3,9 +3,9 @@ import { Subject, takeUntil, tap} from "rxjs";
 import { Router } from "@angular/router";
 import { Company, PaginatedCompanies } from "../models/Company";
 import { CompaniesFacade } from "./store/companies.facade";
-import { Location } from '@angular/common';
 import {cloneDeep} from "lodash";
 import {CompanyParams} from "../models/CompanyParams";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-companies',
@@ -15,7 +15,7 @@ import {CompanyParams} from "../models/CompanyParams";
 export class CompaniesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
   constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router,
-              private location: Location) {}
+              private fb: FormBuilder) {}
 
   private _companyParams: CompanyParams = {
     pageIndex: 1,
@@ -23,6 +23,10 @@ export class CompaniesComponent implements OnInit {
     count: 10,
     sort: "nameAsc",
   };
+
+  public searchForm = this.fb.group({
+    search: "",
+  });
 
   public companies: Company[] = [];
   public loadingCompanies$ = this.companiesFacade.loadingCompanies$;
@@ -53,6 +57,19 @@ export class CompaniesComponent implements OnInit {
     if (sort && this.companyParams) {
       let updatedCompanyParams = cloneDeep(this.companyParams);
       updatedCompanyParams.sort = sort;
+      this.companyParams = updatedCompanyParams;
+      this.companiesFacade.loadCompanies(updatedCompanyParams);
+    }
+  }
+  onSearch(): void {
+    let search = this.searchForm.controls['search'].value;
+    let updatedCompanyParams = cloneDeep(this.companyParams);
+    if (updatedCompanyParams) {
+      if (search) {
+        updatedCompanyParams.search = search
+      } else {
+        delete updatedCompanyParams.search;
+      }
       this.companyParams = updatedCompanyParams;
       this.companiesFacade.loadCompanies(updatedCompanyParams);
     }

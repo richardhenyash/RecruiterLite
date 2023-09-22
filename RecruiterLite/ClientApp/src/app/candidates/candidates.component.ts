@@ -31,6 +31,10 @@ export class CandidatesComponent implements OnInit {
     id: [0],
     isHiringManager: false,
   });
+
+  public searchForm = this.fb.group({
+    search: "",
+  });
   ngOnInit(): void {
     this.candidatesFacade.loadCandidates();
     this.candidatesFacade.candidates$
@@ -79,7 +83,19 @@ export class CandidatesComponent implements OnInit {
       this.candidatesFacade.loadCandidates(updatedCandidateParams);
     }
   }
-
+  onSearch(): void {
+    let search = this.searchForm.controls['search'].value;
+      let updatedCandidateParams = cloneDeep(this.candidateParams);
+      if (updatedCandidateParams) {
+        if (search) {
+          updatedCandidateParams.search = search;
+        } else {
+          delete updatedCandidateParams.search;
+        }
+        this.candidateParams = updatedCandidateParams;
+        this.candidatesFacade.loadCandidates(updatedCandidateParams);
+      }
+  }
   public get candidateParams() {
     return this._candidateParams;
   }

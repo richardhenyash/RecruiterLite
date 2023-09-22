@@ -34,6 +34,14 @@
     </tr>
     </tbody>
   </table>
-  <app-back-button></app-back-button>
-  <button class="btn btn-success" [routerLink]="['/candidates', 'new']">Add</button>
+  <div class="d-flex justify-content-between">
+    <div>
+      <app-back-button></app-back-button>
+      <button class="btn btn-success" [routerLink]="['/candidates', 'new']">Add</button>
+    </div>
+    <form  id="searchForm" [formGroup]="searchForm" class="d-flex" (ngSubmit)="onSearch()">
+      <input class="form-control me-sm-2" type="search" placeholder="Search" formControlName="search">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
 </div>
