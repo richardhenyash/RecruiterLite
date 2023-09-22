@@ -20,8 +20,8 @@ export class CompaniesEffects {
   loadCompanies$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CompaniesActionTypes.LOAD_COMPANIES),
-      switchMap(() =>
-        this.companiesApiService.loadCompanies().pipe(map((response) => loadCompaniesSuccess({response})))
+      switchMap(({ companyParams}) =>
+        this.companiesApiService.loadCompanies(companyParams).pipe(map((response) => loadCompaniesSuccess({response})))
       )
     );
   });
@@ -78,7 +78,7 @@ export class CompaniesEffects {
         CandidatesActionTypes.SAVE_CANDIDATE_SUCCESS,
         CandidatesActionTypes.DELETE_CANDIDATE_SUCCESS,
       ),
-      map((response) => loadCompanies())
+      map((response) => loadCompanies({}))
     );
   });
 

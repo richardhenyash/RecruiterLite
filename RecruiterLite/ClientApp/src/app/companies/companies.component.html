@@ -5,7 +5,10 @@
   <table class="table table-hover my-4">
     <thead>
     <tr class="table-success">
-      <th scope="col">Company Name</th>
+      <th scope="col">Company Name
+        <span (click)="onSort('nameAsc')"><i class="bi bi-caret-up-fill"></i></span>
+        <span (click)="onSort('nameDsc')"><i class="bi bi-caret-down-fill"></i></span>
+      </th>
       <th scope="col">Phone Number</th>
       <th scope="col">Street Address</th>
       <th scope="col">Hiring Manager(s)</th>

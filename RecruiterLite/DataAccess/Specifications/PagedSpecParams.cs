@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
 namespace RecruiterLite.DataAccess.Specifications;
 
 public class PagedSpecParams

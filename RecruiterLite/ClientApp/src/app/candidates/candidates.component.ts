@@ -5,6 +5,8 @@ import { Subject, takeUntil, tap} from "rxjs";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import * as lodash from 'lodash';
+import {CandidateParams} from "../models/CandidateParams";
+import {cloneDeep} from "lodash";
 @Component({
   selector: 'app-candidates',
   templateUrl: './candidates.component.html',
@@ -18,6 +20,12 @@ export class CandidatesComponent implements OnInit {
   public candidates: Candidate[] = [];
   public loadingCandidates$ = this.candidatesFacade.loadingCandidates$;
   public candidateForms: FormGroup[] = [];
+  private _candidateParams: CandidateParams = {
+    pageIndex: 1,
+    pageSize: 10,
+    count: 10,
+    sort: "nameAsc",
+  };
 
   public emptyCandidateForm = this.fb.group({
     id: [0],
@@ -63,4 +71,22 @@ export class CandidatesComponent implements OnInit {
     }
     return candidateForm;
   }
+  onSort(sort: string): void {
+    if (sort && this.candidateParams) {
+      let updatedCandidateParams = cloneDeep(this.candidateParams);
+      updatedCandidateParams.sort = sort;
+      this.candidateParams = updatedCandidateParams;
+      this.candidatesFacade.loadCandidates(updatedCandidateParams);
+    }
+  }
+
+  public get candidateParams() {
+    return this._candidateParams;
+  }
+  public set candidateParams(params: CandidateParams | null | undefined) {
+    if (params) {
+      this._candidateParams = params;
+    }
+  }
+
 }

@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import {Company, PaginatedCompanies} from "../../models/Company";
+import {CandidateParams} from "../../models/CandidateParams";
+import {CompanyParams} from "../../models/CompanyParams";
 export enum CompaniesActionTypes {
   LOAD_COMPANIES = '[Companies] Load Companies',
   LOAD_COMPANIES_SUCCESS = '[Companies] Load Companies success',
@@ -21,7 +23,7 @@ export enum CompaniesActionTypes {
   DELETE_COMPANY_SUCCESS = '[Companies] Delete Company success',
   DELETE_COMPANY_ERROR = '[Companies] Delete Company error',
 }
-export const loadCompanies = createAction(CompaniesActionTypes.LOAD_COMPANIES);
+export const loadCompanies = createAction(CompaniesActionTypes.LOAD_COMPANIES, props<{ companyParams?: CompanyParams }>());
 export const loadCompaniesSuccess = createAction(
   CompaniesActionTypes.LOAD_COMPANIES_SUCCESS,
   props<{ response: PaginatedCompanies }>()

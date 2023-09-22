@@ -2,6 +2,8 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {BaseApiService} from "../../api/base-api-service";
 import {Company, PaginatedCompanies} from "../../models/Company";
+import {CandidateParams} from "../../models/CandidateParams";
+import {CompanyParams} from "../../models/CompanyParams";
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +13,8 @@ export class CompaniesApiService extends BaseApiService {
     super();
   }
 
-  public loadCompanies(): Observable<PaginatedCompanies> {
-    return this.get(`/api/company`, null, false);
+  public loadCompanies(companyParams?: CompanyParams): Observable<PaginatedCompanies> {
+    return this.get(`/api/company`, companyParams, false);
   }
   public loadAllCompanies(): Observable<Array<Company>> {
     return this.get(`/api/company/all`, null, false);
