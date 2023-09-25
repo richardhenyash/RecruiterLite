@@ -6,9 +6,7 @@ import { CompaniesFacade } from "./store/companies.facade";
 import {cloneDeep} from "lodash";
 import {CompanyParams} from "../models/CompanyParams";
 import {FormBuilder} from "@angular/forms";
-import {FilterOption} from "../models/FilterOption";
 import {pageSizeOptions} from "../models/PageSizeOptions";
-
 @Component({
   selector: 'app-companies',
   templateUrl: './companies.component.html',
