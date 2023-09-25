@@ -31,12 +31,20 @@ export class CompaniesComponent implements OnInit {
   public companies: Company[] = [];
   public loadingCompanies$ = this.companiesFacade.loadingCompanies$;
   ngOnInit(): void {
-    this.companiesFacade.loadCompanies();
+    this.companiesFacade.loadCompanies(this._companyParams);
     this.companiesFacade.companies$
       .pipe(
         tap((paginatedCompanies: PaginatedCompanies | null) => {
           if (paginatedCompanies && paginatedCompanies.data) {
             this.companies = paginatedCompanies.data;
+            let updatedCompanyParams = cloneDeep(this.companyParams);
+            if (updatedCompanyParams) {
+              updatedCompanyParams.pageIndex = paginatedCompanies.pageIndex;
+              updatedCompanyParams.pageSize = paginatedCompanies.pageSize;
+              updatedCompanyParams.count = paginatedCompanies.count;
+              this.companyParams = updatedCompanyParams;
+              console.log(this.companyParams);
+            }
           }
         }),
         takeUntil(this.unsubscribe$)
@@ -58,6 +66,7 @@ export class CompaniesComponent implements OnInit {
       let updatedCompanyParams = cloneDeep(this.companyParams);
       updatedCompanyParams.sort = sort;
       this.companyParams = updatedCompanyParams;
+      console.log(this.companyParams);
       this.companiesFacade.loadCompanies(updatedCompanyParams);
     }
   }
@@ -73,6 +82,41 @@ export class CompaniesComponent implements OnInit {
       this.companyParams = updatedCompanyParams;
       this.companiesFacade.loadCompanies(updatedCompanyParams);
     }
+  }
+  onNextPage(): void {
+    let updatedCompanyParams = cloneDeep(this.companyParams);
+    if (updatedCompanyParams) {
+      if (this.checkNext(updatedCompanyParams.pageIndex, updatedCompanyParams.pageSize, updatedCompanyParams.count)) {
+        updatedCompanyParams.pageIndex = updatedCompanyParams.pageIndex + 1;
+        this.companyParams = updatedCompanyParams;
+        this.companiesFacade.loadCompanies(updatedCompanyParams);
+      }
+    }
+  }
+  onPreviousPage(): void {
+    let updatedCompanyParams = cloneDeep(this.companyParams);
+    if (updatedCompanyParams) {
+      if (this.checkPrevious(updatedCompanyParams.pageIndex)) {
+        updatedCompanyParams.pageIndex = updatedCompanyParams.pageIndex - 1;
+        this.companyParams = updatedCompanyParams;
+        this.companiesFacade.loadCompanies(updatedCompanyParams);
+      }
+    }
+  }
+  checkPrevious(index: number | undefined | null) {
+    if (index) {
+      return index -1 > 0;
+    }
+    return true;
+  }
+  checkNext(index: number | undefined | null, pageSize: number | undefined | null, count: number | undefined | null) {
+    if (index && pageSize && count) {
+      return index + 1 <= Math.ceil(count / pageSize);
+    }
+    return false;
+  }
+  checkPagination(pageSize: number | undefined | null, count: number | undefined | null) {
+    return !!(pageSize && count && count > pageSize);
   }
   public get companyParams() {
     return this._companyParams;
