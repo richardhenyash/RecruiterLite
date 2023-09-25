@@ -6,6 +6,8 @@ import { CompaniesFacade } from "./store/companies.facade";
 import {cloneDeep} from "lodash";
 import {CompanyParams} from "../models/CompanyParams";
 import {FormBuilder} from "@angular/forms";
+import {FilterOption} from "../models/FilterOption";
+import {pageSizeOptions} from "../models/PageSizeOptions";
 
 @Component({
   selector: 'app-companies',
@@ -19,14 +21,20 @@ export class CompaniesComponent implements OnInit {
 
   private _companyParams: CompanyParams = {
     pageIndex: 1,
-    pageSize: 10,
-    count: 10,
+    pageSize: +pageSizeOptions[2].value,
+    count: 0,
     sort: "nameAsc",
   };
 
   public searchForm = this.fb.group({
     search: "",
   });
+
+  public pageSizeForm = this.fb.group({
+    pageSize: pageSizeOptions[2].value,
+  });
+
+  public pageSizeOptions = pageSizeOptions;
 
   public companies: Company[] = [];
   public loadingCompanies$ = this.companiesFacade.loadingCompanies$;
@@ -117,6 +125,15 @@ export class CompaniesComponent implements OnInit {
   }
   checkPagination(pageSize: number | undefined | null, count: number | undefined | null) {
     return !!(pageSize && count && count > pageSize);
+  }
+  onSelectPageSize(event: any){
+    let newPageSize = event.target.value;
+    let updatedCompanyParams = cloneDeep(this.companyParams);
+    if (newPageSize && updatedCompanyParams) {
+      updatedCompanyParams.pageSize = newPageSize;
+      this.companyParams = updatedCompanyParams;
+      this.companiesFacade.loadCompanies(updatedCompanyParams);
+    }
   }
   public get companyParams() {
     return this._companyParams;

@@ -11,3 +11,7 @@
 .bi-caret-up-fill:hover, .bi-caret-down-fill:hover {
   color: $gray-300;
 }
+
+.items-select {
+  min-width: toRem(120);
+}
