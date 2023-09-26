@@ -21,6 +21,7 @@ export class PaginationComponent implements OnInit {
   };
   @Input() backButtonLabel: string = '<';
   @Input() nextButtonLabel: string = '>';
+  @Input() sort: string = '';
   @Output() updatedPaginationParams = new EventEmitter<PaginationParams>;
 
   public searchForm = this.fb.group({
@@ -38,14 +39,6 @@ export class PaginationComponent implements OnInit {
     }
     if (this.paginationParams && this.paginationParams.pageSize) {
       this.pageSizeForm.controls['pageSize'].patchValue(+this.paginationParams.pageSize)
-    }
-  }
-  onSort(sort: string): void {
-    if (sort && this.paginationParams) {
-      let updatedPaginationParams = cloneDeep(this.paginationParams);
-      updatedPaginationParams.sort = sort;
-      this.paginationParams = updatedPaginationParams;
-      this.updatedPaginationParams.emit(updatedPaginationParams);
     }
   }
   onSearch(): void {
