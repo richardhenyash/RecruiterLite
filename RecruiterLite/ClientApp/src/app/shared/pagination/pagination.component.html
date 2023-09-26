@@ -1,0 +1,18 @@
+<div class="d-flex">
+  <form id="searchForm" [formGroup]="searchForm" class="d-flex" (ngSubmit)="onSearch()">
+    <input class="form-control me-2 my-1" type="search" placeholder="Search" formControlName="search">
+    <button class="btn btn-success me-2 my-1" type="submit">Search</button>
+  </form>
+  <form id="pageSizeForm" [formGroup]="pageSizeForm" class="form-group me-2 items-select">
+    <select class="form-select my-1" id="pageSizeSelect" formControlName="pageSize" (change)="onSelectPageSize($event)">
+      <option [value]="pageSize.value" *ngFor="let pageSize of pageSizeOptions">
+        {{ pageSize.name }}
+      </option>
+    </select>
+  </form>
+  <ng-container *ngIf="checkPagination(paginationParams?.pageSize, paginationParams?.count)">
+    <button class="btn btn-sm btn-secondary me-2 my-1" type="button" (click)="onPreviousPage()" [disabled]="!checkPrevious(paginationParams?.pageIndex)"><</button>
+    <button class="btn btn-sm btn-light me-2 my-1" type="button" disabled>{{paginationParams?.pageIndex ?? 1}}</button>
+    <button class="btn btn-sm btn-secondary my-1" type="button" (click)="onNextPage()" [disabled]="!checkNext(paginationParams?.pageIndex, paginationParams?.pageSize, paginationParams?.count)">></button>
+  </ng-container>
+</div>

@@ -39,9 +39,6 @@
       <app-back-button></app-back-button>
       <button class="btn btn-success" [routerLink]="['/candidates', 'new']">Add</button>
     </div>
-    <form  id="searchForm" [formGroup]="searchForm" class="d-flex" (ngSubmit)="onSearch()">
-      <input class="form-control me-sm-2" type="search" placeholder="Search" formControlName="search">
-      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <app-pagination [_paginationParams]="paginationParams" (updatedPaginationParams)="updatePaginationParams($event)"></app-pagination>
   </div>
 </div>

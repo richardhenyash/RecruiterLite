@@ -14,6 +14,7 @@ export interface PaginatedCompanies {
   pageIndex: number,
   pageSize: number,
   count: number,
+  search?: string,
   data: Company[];
 }
 

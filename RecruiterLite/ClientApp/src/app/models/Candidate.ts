@@ -17,5 +17,6 @@ export interface PaginatedCandidates {
   pageIndex: number,
   pageSize: number,
   count: number,
+  search?: string,
   data: Candidate[];
 }

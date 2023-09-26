@@ -9,10 +9,10 @@ import { CandidateEditComponent } from './candidate-edit/candidate-edit.componen
 import {ConfirmationModalModule} from "../shared/confirmation-modal/confirmation-modal.module";
 import {CompaniesStoreModule} from "../companies/store/companies-store.module";
 import {BackButtonModule} from "../shared/back-button/back-button.module";
-
+import {PaginationModule} from "../shared/pagination/pagination.module";
 @NgModule({
   imports: [CommonModule, CandidatesRoutingModule, CandidatesStoreModule, CompaniesStoreModule, SpinnerModule,
-    BackButtonModule, ReactiveFormsModule, ConfirmationModalModule, FormsModule],
+    BackButtonModule, ReactiveFormsModule, ConfirmationModalModule, FormsModule, PaginationModule],
   declarations: [CandidatesComponent, CandidateEditComponent],
   exports: [CandidatesComponent],
 })
