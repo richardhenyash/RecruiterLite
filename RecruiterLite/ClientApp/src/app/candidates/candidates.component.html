@@ -2,7 +2,8 @@
   <app-spinner message="Loading candidates..."></app-spinner>
 </div>
 <div *ngIf="!(loadingCandidates$ | async)" class="table-responsive-sm">
-  <table class="table table-hover my-4">
+  <p *ngIf="!(candidates.length > 0)" class="text-center my-3" >No candidates found</p>
+  <table *ngIf="(candidates.length > 0)" class="table table-hover my-4">
     <thead>
     <tr class="table-success">
       <th scope="col">Name

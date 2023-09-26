@@ -2,7 +2,8 @@
   <app-spinner message="Loading companies..."></app-spinner>
 </div>
 <div *ngIf="!(loadingCompanies$ | async)" class="table-responsive-sm">
-  <table class="table table-hover my-4">
+  <p *ngIf="!(companies.length > 0)" class="text-center my-3" >No companies found</p>
+  <table *ngIf="(companies.length > 0)" class="table table-hover my-4">
     <thead>
     <tr class="table-success">
       <th scope="col">Company Name
