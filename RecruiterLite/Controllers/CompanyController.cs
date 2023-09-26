@@ -27,7 +27,7 @@ public class CompanyController : ControllerBase
     public async Task<ActionResult<IEnumerable<CompanyResponse>>> GetCompanies([FromQuery]CompanySpecParams? companyParams)
     {
         var companySpecification = new CompaniesSpecification(companyParams);
-        var    companyCountSpecification = new CompaniesWithFiltersForCountSpecification(companyParams);
+        var companyCountSpecification = new CompaniesWithFiltersForCountSpecification(companyParams);
         var totalItems = await _unitOfWork.Repository<Company>().CountAsync(companyCountSpecification);
         var companyList = await _unitOfWork.Repository<Company>().GetEntitiesWithSpecification(companySpecification, true);
         if (companyList == null)
@@ -44,8 +44,7 @@ public class CompanyController : ControllerBase
                 company.HiringManagers = _mapper.Map<List<CandidateResponse>>(hiringManagers);
             }
         }
-        return Ok(new Pagination<CompanyResponse>(companyParams.PageIndex, companyParams.PageSize, totalItems,
-            companyData));
+        return Ok(new Pagination<CompanyResponse>(companyParams.PageIndex, companyParams.PageSize, totalItems, companyParams.Search, companyData));
     }
     
     // GET: api/Company/All

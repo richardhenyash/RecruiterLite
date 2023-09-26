@@ -35,8 +35,7 @@ public class CandidateController : ControllerBase
             return NotFound("No candidates currently exist in the database.");
         }
         var candidateData = _mapper.Map<List<CandidateResponse>>(candidateList);
-        return Ok(new Pagination<CandidateResponse>(candidateParams.PageIndex, candidateParams.PageSize, totalItems,
-            candidateData));
+        return Ok(new Pagination<CandidateResponse>(candidateParams.PageIndex, candidateParams.PageSize, totalItems, candidateParams.Search, candidateData));
     }
     
     // GET: api/Candidate/1

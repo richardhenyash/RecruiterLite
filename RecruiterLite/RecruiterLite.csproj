@@ -44,6 +44,7 @@
     <ItemGroup>
       <EmbeddedResource Remove="ClientApp\.angular\**" />
 
+
     </ItemGroup>
 
 
