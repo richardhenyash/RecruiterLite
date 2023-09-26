@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RecruiterLite.DataAccess.Interfaces;
 using RecruiterLite.DataAccess.Specifications;
@@ -17,7 +16,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _context = context;
         _dbSet = _context.Set<T>();
     }
-
     public async Task<T> GetByIdAsync(int id)
     {
         return await _dbSet.FindAsync(id);

@@ -8,6 +8,7 @@ import {
 import {Store} from "@ngrx/store";
 import {selectCandidate, selectCandidates, selectLoadingCandidates} from "./candidates.selectors";
 import {Candidate} from "../../models/Candidate";
+import {CandidateParams} from "../../models/CandidateParams";
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,8 @@ export class CandidatesFacade {
   candidates$ = this.store.select(selectCandidates);
   candidate$ = this.store.select(selectCandidate);
   loadingCandidates$ = this.store.select(selectLoadingCandidates);
-  loadCandidates(): void {
-    this.store.dispatch(loadCandidates());
+  loadCandidates(candidateParams?: CandidateParams): void {
+    this.store.dispatch(loadCandidates( { candidateParams }));
   }
   loadCandidate(id: number): void {
     this.store.dispatch(loadCandidate({ id }));

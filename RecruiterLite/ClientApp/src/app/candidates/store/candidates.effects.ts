@@ -15,8 +15,8 @@ export class CandidatesEffects {
   loadCandidates$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CandidatesActionTypes.LOAD_CANDIDATES),
-      switchMap(() =>
-        this.candidatesApiService.loadCandidates().pipe(map((response) => loadCandidatesSuccess({response})))
+      switchMap(({ candidateParams}) =>
+        this.candidatesApiService.loadCandidates(candidateParams).pipe(map((response) => loadCandidatesSuccess({response})))
       )
     );
   });
@@ -62,7 +62,7 @@ export class CandidatesEffects {
         CandidatesActionTypes.SAVE_CANDIDATE_SUCCESS,
         CandidatesActionTypes.DELETE_CANDIDATE_SUCCESS
       ),
-      map((response) => loadCandidates())
+      map((response) => loadCandidates({}))
     );
   });
   constructor(private actions$: Actions, private candidatesApiService: CandidatesApiService) {

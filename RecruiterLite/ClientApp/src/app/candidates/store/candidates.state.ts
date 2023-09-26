@@ -1,8 +1,8 @@
-import {Candidate} from "../../models/Candidate";
+import {Candidate, PaginatedCandidates} from "../../models/Candidate";
 import {ApiState} from "../../models/ApiState";
 
 export interface CandidatesState {
-  candidates: Array<Candidate> | null;
+  candidates: PaginatedCandidates | null;
   candidatesStatus: ApiState;
 
   candidate: Candidate | null;

@@ -10,3 +10,10 @@ export interface Company {
   country: string
   hiringManagers?: Candidate[]
 }
+export interface PaginatedCompanies {
+  pageIndex: number,
+  pageSize: number,
+  count: number,
+  data: Company[];
+}
+

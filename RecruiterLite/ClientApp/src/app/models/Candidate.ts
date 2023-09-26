@@ -13,3 +13,9 @@ export interface Candidate {
   companyName?: string
   isHiringManager: boolean
 }
+export interface PaginatedCandidates {
+  pageIndex: number,
+  pageSize: number,
+  count: number,
+  data: Candidate[];
+}

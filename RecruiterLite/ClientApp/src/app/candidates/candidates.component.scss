@@ -7,3 +7,7 @@
 .table-active:nth-child(odd){
   background: rgba(0,0,0,0.1);
 }
+
+.bi-caret-up-fill:hover, .bi-caret-down-fill:hover {
+  color: $gray-300;
+}
