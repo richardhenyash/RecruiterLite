@@ -9,7 +9,6 @@ import {CompaniesStoreModule} from "./store/companies-store.module";
 import {CompaniesRoutingModule} from "./companies-routing.module";
 import {BackButtonModule} from "../shared/back-button/back-button.module";
 import {PaginationModule} from "../shared/pagination/pagination.module";
-
 @NgModule({
   imports: [
     CommonModule, CompaniesRoutingModule, CompaniesStoreModule, SpinnerModule,

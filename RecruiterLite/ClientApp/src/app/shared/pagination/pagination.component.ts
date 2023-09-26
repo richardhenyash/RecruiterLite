@@ -58,7 +58,6 @@ export class PaginationComponent implements OnInit {
         delete updatedPaginationParams.search;
       }
       this.paginationParams = updatedPaginationParams;
-      console.log(updatedPaginationParams);
       this.updatedPaginationParams.emit(updatedPaginationParams);
     }
   }
@@ -78,7 +77,6 @@ export class PaginationComponent implements OnInit {
       if (this.checkPrevious(updatedPaginationParams.pageIndex)) {
         updatedPaginationParams.pageIndex = updatedPaginationParams.pageIndex - 1;
         this.paginationParams = updatedPaginationParams;
-        console.log(updatedPaginationParams);
         this.updatedPaginationParams.emit(updatedPaginationParams);
       }
     }

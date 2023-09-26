@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { Company, PaginatedCompanies } from "../models/Company";
 import { CompaniesFacade } from "./store/companies.facade";
 import {cloneDeep} from "lodash";
-import {FormBuilder} from "@angular/forms";
 import {pageSizeOptions} from "../models/PageSizeOptions";
 import {PaginationParams} from "../models/PaginationParams";
 import {CompanyParams} from "../models/CompanyParams";
@@ -15,8 +14,7 @@ import {CompanyParams} from "../models/CompanyParams";
 })
 export class CompaniesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
-  constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router,
-              private fb: FormBuilder) {}
+  constructor(private readonly companiesFacade: CompaniesFacade, private readonly router: Router) {}
 
   public paginationParams: PaginationParams = {
     pageIndex: 1,
@@ -45,7 +43,6 @@ export class CompaniesComponent implements OnInit {
                 delete updatedPaginationParams.search;
               }
               this.paginationParams = updatedPaginationParams;
-              console.log(this.paginationParams);
             }
           }
         }),

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Candidate, PaginatedCandidates} from "../models/Candidate";
 import { CandidatesFacade } from "./store/candidates.facade";
 import { Subject, takeUntil, tap} from "rxjs";
@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import * as lodash from 'lodash';
 import {CandidateParams} from "../models/CandidateParams";
 import {cloneDeep} from "lodash";
+import {PaginationParams} from "../models/PaginationParams";
+import {pageSizeOptions} from "../models/PageSizeOptions";
 @Component({
   selector: 'app-candidates',
   templateUrl: './candidates.component.html',
@@ -15,25 +17,22 @@ import {cloneDeep} from "lodash";
 export class CandidatesComponent implements OnInit {
   public unsubscribe$: Subject<void> = new Subject();
   constructor(private readonly candidatesFacade: CandidatesFacade, private readonly router: Router,
-              private readonly cdf: ChangeDetectorRef, private fb: FormBuilder) {}
+              private fb: FormBuilder) {}
 
   public candidates: Candidate[] = [];
   public loadingCandidates$ = this.candidatesFacade.loadingCandidates$;
   public candidateForms: FormGroup[] = [];
-  private _candidateParams: CandidateParams = {
+
+  public paginationParams: PaginationParams = {
     pageIndex: 1,
-    pageSize: 10,
-    count: 10,
+    pageSize: +pageSizeOptions[2].value,
+    count: 0,
     sort: "nameAsc",
   };
 
   public emptyCandidateForm = this.fb.group({
     id: [0],
     isHiringManager: false,
-  });
-
-  public searchForm = this.fb.group({
-    search: "",
   });
   ngOnInit(): void {
     this.candidatesFacade.loadCandidates();
@@ -47,6 +46,18 @@ export class CandidatesComponent implements OnInit {
                   id: [c.id],
                   isHiringManager: c.isHiringManager
               })))
+            let updatedPaginationParams = cloneDeep(this.paginationParams);
+            if (updatedPaginationParams) {
+              updatedPaginationParams.pageIndex = +paginatedCandidates.pageIndex;
+              updatedPaginationParams.pageSize = +paginatedCandidates.pageSize;
+              updatedPaginationParams.count = +paginatedCandidates.count;
+              if (paginatedCandidates.search) {
+                updatedPaginationParams.search = paginatedCandidates.search;
+              } else {
+                delete updatedPaginationParams.search;
+              }
+              this.paginationParams = updatedPaginationParams;
+            }
           }
         }),
         takeUntil(this.unsubscribe$)
@@ -76,33 +87,15 @@ export class CandidatesComponent implements OnInit {
     return candidateForm;
   }
   onSort(sort: string): void {
-    if (sort && this.candidateParams) {
-      let updatedCandidateParams = cloneDeep(this.candidateParams);
-      updatedCandidateParams.sort = sort;
-      this.candidateParams = updatedCandidateParams;
-      this.candidatesFacade.loadCandidates(updatedCandidateParams);
+    if (sort && this.paginationParams) {
+      let updatedPaginationParams = cloneDeep(this.paginationParams);
+      updatedPaginationParams.sort = sort;
+      this.paginationParams = updatedPaginationParams;
+      this.candidatesFacade.loadCandidates(updatedPaginationParams as CandidateParams);
     }
   }
-  onSearch(): void {
-    let search = this.searchForm.controls['search'].value;
-      let updatedCandidateParams = cloneDeep(this.candidateParams);
-      if (updatedCandidateParams) {
-        if (search) {
-          updatedCandidateParams.search = search;
-        } else {
-          delete updatedCandidateParams.search;
-        }
-        this.candidateParams = updatedCandidateParams;
-        this.candidatesFacade.loadCandidates(updatedCandidateParams);
-      }
+  public updatePaginationParams(updatedPaginationParams: PaginationParams) {
+    this.paginationParams = updatedPaginationParams;
+    this.candidatesFacade.loadCandidates(updatedPaginationParams as CandidateParams);
   }
-  public get candidateParams() {
-    return this._candidateParams;
-  }
-  public set candidateParams(params: CandidateParams | null | undefined) {
-    if (params) {
-      this._candidateParams = params;
-    }
-  }
-
 }
