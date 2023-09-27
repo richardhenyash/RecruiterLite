@@ -2,7 +2,7 @@
   <app-spinner message="Loading companies..."></app-spinner>
 </div>
 <div *ngIf="!(loadingCompanies$ | async)" class="table-responsive-sm">
-  <p *ngIf="!(companies.length > 0)" class="text-center my-3" >No companies found</p>
+  <p *ngIf="!(companies.length > 0)" class="text-center my-3" >No companies found<button class="btn btn-success ms-2 mb-1" (click)="onReload()">Reload</button></p>
   <table *ngIf="(companies.length > 0)" class="table table-hover my-4">
     <thead>
     <tr class="table-success">

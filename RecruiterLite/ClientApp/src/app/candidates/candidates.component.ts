@@ -98,7 +98,14 @@ export class CandidatesComponent implements OnInit {
       this.candidatesFacade.loadCandidates(updatedPaginationParams as CandidateParams);
     }
   }
-
+  onReload() {
+    let updatedPaginationParams = cloneDeep(this.paginationParams) as CandidateParams;
+    delete updatedPaginationParams.companyName;
+    delete updatedPaginationParams.search;
+    this.paginationParams = updatedPaginationParams;
+    this.searchForm.controls['search'].patchValue('');
+    this.candidatesFacade.loadCandidates(updatedPaginationParams as CandidateParams);
+  }
   onUpdateSearch(event: any) {
     let companyNameSearch = event.target.value;
     let updatedCandidateParams = cloneDeep(this.paginationParams) as CandidateParams;

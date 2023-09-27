@@ -7,6 +7,7 @@ import {cloneDeep} from "lodash";
 import {pageSizeOptions} from "../models/PageSizeOptions";
 import {PaginationParams} from "../models/PaginationParams";
 import {CompanyParams} from "../models/CompanyParams";
+import {CandidateParams} from "../models/CandidateParams";
 @Component({
   selector: 'app-companies',
   templateUrl: './companies.component.html',
@@ -67,6 +68,12 @@ export class CompaniesComponent implements OnInit {
       this.paginationParams = updatedPaginationParams;
       this.companiesFacade.loadCompanies(updatedPaginationParams as CompanyParams);
     }
+  }
+  onReload() {
+    let updatedPaginationParams = cloneDeep(this.paginationParams) as CompanyParams;
+    delete updatedPaginationParams.search;
+    this.paginationParams = updatedPaginationParams;
+    this.companiesFacade.loadCompanies(updatedPaginationParams as CompanyParams);
   }
   public updatePaginationParams(updatedPaginationParams: PaginationParams) {
     this.paginationParams = updatedPaginationParams;
