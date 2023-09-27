@@ -6,8 +6,8 @@ public class CandidatesWithFiltersForCountSpecification : BaseSpecification<Cand
 {
     public CandidatesWithFiltersForCountSpecification(CandidateSpecParams? candidateParams) :
         base(c => 
-            string.IsNullOrEmpty(candidateParams.Search) || (c.FirstName.ToLower().Contains(candidateParams.Search) || c.LastName.ToLower().Contains(candidateParams.Search))
-            && !candidateParams.CompanyId.HasValue || c.CompanyId == candidateParams.CompanyId)
+            (string.IsNullOrEmpty(candidateParams.Search) || c.FirstName.ToLower().Contains(candidateParams.Search) || c.LastName.ToLower().Contains(candidateParams.Search))
+            && (string.IsNullOrEmpty(candidateParams.CompanyName) || c.Company.CompanyName.Contains(candidateParams.CompanyName)))
     {
         
     }

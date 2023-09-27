@@ -1,5 +1,13 @@
 @import '../../variables';
 
+.table-header input{
+  margin: toRem(2);
+  padding: toRem(5);
+  font-size: toRem(12);
+  height: toRem(24);
+  max-width: toRem(60);
+}
+
 .table-active {
   cursor: pointer;
 }

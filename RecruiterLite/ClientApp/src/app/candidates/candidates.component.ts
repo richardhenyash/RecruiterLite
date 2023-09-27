@@ -34,6 +34,10 @@ export class CandidatesComponent implements OnInit {
     id: [0],
     isHiringManager: false,
   });
+
+  public searchForm = this.fb.group({
+    search: '',
+  });
   ngOnInit(): void {
     this.candidatesFacade.loadCandidates();
     this.candidatesFacade.candidates$
@@ -94,8 +98,22 @@ export class CandidatesComponent implements OnInit {
       this.candidatesFacade.loadCandidates(updatedPaginationParams as CandidateParams);
     }
   }
+
+  onUpdateSearch(event: any) {
+    let companyNameSearch = event.target.value;
+    let updatedCandidateParams = cloneDeep(this.paginationParams) as CandidateParams;
+    if (updatedCandidateParams) {
+      if (companyNameSearch) {
+        updatedCandidateParams.companyName = companyNameSearch;
+      } else {
+        delete updatedCandidateParams.companyName;
+      }
+      this.candidatesFacade.loadCandidates(updatedCandidateParams as CandidateParams);
+    }
+  }
   public updatePaginationParams(updatedPaginationParams: PaginationParams) {
     this.paginationParams = updatedPaginationParams;
     this.candidatesFacade.loadCandidates(updatedPaginationParams as CandidateParams);
   }
+
 }

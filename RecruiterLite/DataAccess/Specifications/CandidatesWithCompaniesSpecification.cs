@@ -6,8 +6,8 @@ public class CandidatesWithCompaniesSpecification : BaseSpecification<Candidate>
 {
     public CandidatesWithCompaniesSpecification(CandidateSpecParams? candidateParams) :
         base(c => 
-            string.IsNullOrEmpty(candidateParams.Search) || (c.FirstName.ToLower().Contains(candidateParams.Search) || c.LastName.ToLower().Contains(candidateParams.Search))
-            && !candidateParams.CompanyId.HasValue || c.CompanyId == candidateParams.CompanyId)
+            (string.IsNullOrEmpty(candidateParams.Search) || c.FirstName.ToLower().Contains(candidateParams.Search) || c.LastName.ToLower().Contains(candidateParams.Search))
+            && (string.IsNullOrEmpty(candidateParams.CompanyName) || c.Company.CompanyName.Contains(candidateParams.CompanyName)))
     {
         AddInclude(c => c.Company);
         ApplyPaging(candidateParams.PageSize * (candidateParams.PageIndex - 1), candidateParams.PageSize);

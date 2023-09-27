@@ -4,5 +4,5 @@ export interface CandidateParams {
   count: number,
   sort?: string,
   search?: string,
-  companyId?: number,
+  companyName?: string,
 }

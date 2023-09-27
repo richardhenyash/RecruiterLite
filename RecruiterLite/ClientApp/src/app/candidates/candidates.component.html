@@ -6,17 +6,21 @@
   <table *ngIf="(candidates.length > 0)" class="table table-hover my-4">
     <thead>
     <tr class="table-success">
-      <th scope="col">Name
+      <th scope="col" class="table-header">Name
           <span (click)="onSort('nameAsc')"><i class="bi bi-caret-up-fill"></i></span>
           <span (click)="onSort('nameDsc')"><i class="bi bi-caret-down-fill"></i></span>
       </th>
-      <th scope="col">Company
+      <th scope="col" class="table-header d-flex align-items-end">
+        Company
         <span (click)="onSort('companyNameAsc')"><i class="bi bi-caret-up-fill"></i></span>
         <span (click)="onSort('companyNameDsc')"><i class="bi bi-caret-down-fill"></i></span>
+        <form id="searchForm" [formGroup]="searchForm" class="form-input">
+          <input id="search" class="form-control" type="search" placeholder="Search" formControlName="search" (change)="onUpdateSearch($event)">
+        </form>
       </th>
-      <th scope="col">Contact Number</th>
-      <th scope="col">Email Address</th>
-      <th scope="col">Hiring Manager</th>
+      <th scope="col" class="table-header">Contact Number</th>
+      <th scope="col" class="table-header">Email Address</th>
+      <th scope="col" class="table-header">Hiring Manager</th>
     </tr>
     </thead>
     <tbody>
