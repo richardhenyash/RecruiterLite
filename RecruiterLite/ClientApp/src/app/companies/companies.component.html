@@ -6,13 +6,14 @@
   <table *ngIf="(companies.length > 0)" class="table table-hover my-4">
     <thead>
     <tr class="table-success">
-      <th scope="col">Company Name
+      <th scope="col" class="table-header align-middle">
+        <span class="me-1">Company Name</span>
         <span (click)="onSort('nameAsc')"><i class="bi bi-caret-up-fill"></i></span>
         <span (click)="onSort('nameDsc')"><i class="bi bi-caret-down-fill"></i></span>
       </th>
-      <th scope="col">Phone Number</th>
-      <th scope="col">Street Address</th>
-      <th scope="col">Hiring Manager(s)</th>
+      <th scope="col" class="table-header align-middle">Phone Number</th>
+      <th scope="col" class="table-header align-middle">Street Address</th>
+      <th scope="col" class="table-header align-middle">Hiring Manager(s)</th>
     </tr>
     </thead>
     <tbody>

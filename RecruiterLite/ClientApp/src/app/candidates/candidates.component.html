@@ -6,21 +6,24 @@
   <table *ngIf="(candidates.length > 0)" class="table table-hover my-4">
     <thead>
     <tr class="table-success">
-      <th scope="col" class="table-header">Name
+      <th scope="col" class="table-header align-middle">
+          <span class="me-1">Name</span>
           <span (click)="onSort('nameAsc')"><i class="bi bi-caret-up-fill"></i></span>
           <span (click)="onSort('nameDsc')"><i class="bi bi-caret-down-fill"></i></span>
       </th>
-      <th scope="col" class="table-header d-flex align-items-end">
-        Company
-        <span (click)="onSort('companyNameAsc')"><i class="bi bi-caret-up-fill"></i></span>
-        <span (click)="onSort('companyNameDsc')"><i class="bi bi-caret-down-fill"></i></span>
-        <form id="searchForm" [formGroup]="searchForm" class="form-input">
-          <input id="search" class="form-control" type="search" placeholder="Search" formControlName="search" (change)="onUpdateSearch($event)">
-        </form>
+      <th scope="col" class="table-header align-middle">
+        <div class="d-flex flex-row align-items-center">
+          <span class="me-1">Company</span>
+          <span (click)="onSort('companyNameAsc')"><i class="bi bi-caret-up-fill"></i></span>
+          <span (click)="onSort('companyNameDsc')"><i class="bi bi-caret-down-fill"></i></span>
+          <form id="searchForm" [formGroup]="searchForm" class="form-input">
+            <input id="search" class="form-control" type="search" placeholder="Search" formControlName="search" (change)="onUpdateSearch($event)">
+          </form>
+        </div>
       </th>
-      <th scope="col" class="table-header">Contact Number</th>
-      <th scope="col" class="table-header">Email Address</th>
-      <th scope="col" class="table-header">Hiring Manager</th>
+      <th scope="col" class="table-header align-middle">Contact Number</th>
+      <th scope="col" class="table-header align-middle">Email Address</th>
+      <th scope="col" class="table-header align-middle text-center">Hiring Manager</th>
     </tr>
     </thead>
     <tbody>
@@ -30,7 +33,7 @@
         <td (click)="onEditCandidate(candidate.id)">{{ candidate.phoneNumber }}</td>
         <td><a href="mailto:{{candidate.email}}" class="link">{{ candidate.email }}</a></td>
         <td>
-          <div class="form-check">
+          <div class="d-flex flex-row justify-content-center">
             <form id="candidateForm{{candidate.id}}" [formGroup]="getCandidateForm(candidate.id)">
               <input id="isHiringInput{{candidate.id}}" class="form-check-input" type="checkbox" (click)="onToggleIsHiringManager(candidate.id, $event)" formControlName="isHiringManager">
             </form>

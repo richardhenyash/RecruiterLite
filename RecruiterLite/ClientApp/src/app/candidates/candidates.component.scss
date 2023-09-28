@@ -1,11 +1,11 @@
 @import '../../variables';
 
 .table-header input{
-  margin: toRem(2);
+  margin: toRem(5);
   padding: toRem(5);
-  font-size: toRem(12);
-  height: toRem(24);
-  max-width: toRem(60);
+  font-size: toRem(14);
+  height: toRem(30);
+  max-width: toRem(100);
 }
 
 .table-active {
